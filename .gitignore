@@ -15,6 +15,10 @@ dist-ssr
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
+!.vscode/settings.json
+
+# Tauri
+src-tauri/target/
 .idea
 .DS_Store
 *.suo
