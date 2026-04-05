@@ -1,6 +1,6 @@
 # DeltaDevX
 
-A cross-platform desktop application for developers — built with **Tauri v2 + React + TypeScript + Tailwind CSS**. Works 100% offline.
+A cross-platform desktop application for developers for json utilities — built with **Tauri v2 + React + TypeScript + Tailwind CSS**. Works offline.
 
 ## Features
 
