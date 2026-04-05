@@ -12,7 +12,7 @@
   "app": {
     "windows": [
       {
-        "title": "DeltaDevX — Local Utilities (Offline)",
+        "title": "DeltaDevX — Local Utilities",
         "width": 1200,
         "height": 750,
         "minWidth": 900,

@@ -22,7 +22,7 @@ function App() {
 
   return (
     <div
-      className="flex h-screen w-screen overflow-hidden transition-colors duration-200"
+      className="flex h-screen w-screen overflow-x-auto overflow-y-hidden transition-colors duration-200"
       style={{
         backgroundColor: isDark ? '#0f0f1a' : '#f9fafb',
       }}
@@ -39,7 +39,7 @@ function App() {
       <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
         <TopBar activeView={activeView} isDark={isDark} />
 
-        <main className="flex-1 overflow-hidden">
+        <main className="flex-1 overflow-y-auto overflow-x-hidden">
           {activeView === 'json-diff' && <JsonDiff isDark={isDark} />}
           {activeView === 'jwt-decoder' && <JwtDecoder isDark={isDark} />}
         </main>

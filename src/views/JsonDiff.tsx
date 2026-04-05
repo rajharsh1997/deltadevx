@@ -50,6 +50,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ value, onChange, isDark, placeh
             extensions: [
                 basicSetup,
                 json(),
+                EditorView.lineWrapping,
                 isDark ? oneDark : lightTheme,
                 EditorView.updateListener.of((update) => {
                     if (update.docChanged) {
@@ -57,8 +58,8 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ value, onChange, isDark, placeh
                     }
                 }),
                 EditorView.theme({
-                    '&': { height: '100%' },
-                    '.cm-scroller': { overflow: 'auto', fontFamily: "'JetBrains Mono', 'Fira Code', monospace", fontSize: '13px' },
+                    '&': { flex: '1 1 0%', minHeight: '300px' },
+                    '.cm-scroller': { overflowX: 'hidden', overflowY: 'hidden', fontFamily: "'JetBrains Mono', 'Fira Code', monospace", fontSize: '13px' },
                 }),
                 placeholder
                     ? EditorView.contentAttributes.of({ 'data-placeholder': placeholder } as Record<string, string>)
@@ -95,7 +96,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ value, onChange, isDark, placeh
         <div
             ref={containerRef}
             className={`
-        h-full w-full overflow-hidden
+        flex flex-col flex-1 w-full overflow-hidden
         rounded-md border
         ${isDark ? 'border-[#2a2a45]' : 'border-[#e5e7eb]'}
       `}
@@ -113,7 +114,7 @@ const DiffPanel: React.FC<DiffPanelProps> = ({ lines, isDark }) => {
     return (
         <div
             className={`
-        h-full overflow-auto font-mono text-[12.5px] leading-[1.6]
+        flex-1 font-mono text-[12.5px] leading-[1.6]
         rounded-md border
         ${isDark ? 'bg-[#12121f] border-[#2a2a45]' : 'bg-[#f9fafb] border-[#e5e7eb]'}
       `}
@@ -270,18 +271,18 @@ const JsonDiff: React.FC<JsonDiffProps> = ({ isDark }) => {
     }, [])
 
     return (
-        <div className="flex flex-col h-full gap-4 p-6 overflow-hidden">
+        <div className="flex flex-col min-h-full gap-4 p-6 min-w-[800px] text-[#d1d5db]">
             {/* Input panels */}
-            <div className="flex gap-4 flex-1 min-h-0">
+            <div className="flex gap-4">
                 {/* Left editor */}
-                <div className="flex flex-col flex-1 min-h-0 gap-2">
+                <div className="flex flex-col flex-1 min-w-0 gap-2">
                     <label
                         className={`text-[11px] font-mono font-semibold tracking-widest uppercase
               ${isDark ? 'text-[#4b5563]' : 'text-[#9ca3af]'}`}
                     >
                         JSON Input A
                     </label>
-                    <div className="flex-1 min-h-0">
+                    <div className="flex-1 flex flex-col">
                         <CodeEditor
                             value={inputA}
                             onChange={setInputA}
@@ -298,14 +299,14 @@ const JsonDiff: React.FC<JsonDiffProps> = ({ isDark }) => {
                 </div>
 
                 {/* Right editor */}
-                <div className="flex flex-col flex-1 min-h-0 gap-2">
+                <div className="flex flex-col flex-1 min-w-0 gap-2">
                     <label
                         className={`text-[11px] font-mono font-semibold tracking-widest uppercase
               ${isDark ? 'text-[#4b5563]' : 'text-[#9ca3af]'}`}
                     >
                         JSON Input B
                     </label>
-                    <div className="flex-1 min-h-0">
+                    <div className="flex-1 flex flex-col">
                         <CodeEditor
                             value={inputB}
                             onChange={setInputB}
@@ -369,7 +370,7 @@ const JsonDiff: React.FC<JsonDiffProps> = ({ isDark }) => {
 
             {/* Diff result */}
             {diffResult && (
-                <div className="flex flex-col flex-1 min-h-0 gap-2 animate-fade-in">
+                <div className="flex flex-col flex-1 gap-2 animate-fade-in">
                     <div className="flex items-center gap-3 shrink-0">
                         <label
                             className={`text-[11px] font-mono font-semibold tracking-widest uppercase
@@ -378,38 +379,46 @@ const JsonDiff: React.FC<JsonDiffProps> = ({ isDark }) => {
                             Comparison Result
                         </label>
                         {noDiffMsg && (
-                            <span className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-900/30 border border-emerald-800/40 text-emerald-400 text-xs font-mono">
-                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block" />
+                            <span className={`flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-mono border
+                ${isDark
+                                    ? 'bg-emerald-900/30 border-emerald-800/40 text-emerald-400'
+                                    : 'bg-emerald-50 border-emerald-200 text-emerald-700'
+                                }`}>
+                                <span className={`w-1.5 h-1.5 rounded-full inline-block ${isDark ? 'bg-emerald-400' : 'bg-emerald-500'}`} />
                                 No differences found
                             </span>
                         )}
                         {!noDiffMsg && diffResult.hasDiff && (
-                            <span className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-900/30 border border-amber-800/40 text-amber-400 text-xs font-mono">
-                                <span className="w-1.5 h-1.5 rounded-full bg-amber-400 inline-block" />
+                            <span className={`flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-mono border
+                ${isDark
+                                    ? 'bg-amber-900/30 border-amber-800/40 text-amber-400'
+                                    : 'bg-amber-50 border-amber-200 text-amber-700'
+                                }`}>
+                                <span className={`w-1.5 h-1.5 rounded-full inline-block ${isDark ? 'bg-amber-400' : 'bg-amber-500'}`} />
                                 Differences detected
                             </span>
                         )}
                     </div>
 
-                    <div className="flex gap-4 flex-1 min-h-0">
+                    <div className="flex gap-4">
                         {/* Left diff — A */}
-                        <div className="flex flex-col flex-1 min-h-0 gap-1">
+                        <div className="flex flex-col flex-1 min-w-0 gap-1">
                             <div className={`text-[10px] font-mono tracking-wider px-1
                 ${isDark ? 'text-[#3d3d6b]' : 'text-[#d1d5db]'}`}>
                                 A — Base
                             </div>
-                            <div className="flex-1 min-h-0">
+                            <div className="flex-1 flex flex-col">
                                 <DiffPanel lines={diffResult.leftLines} isDark={isDark} />
                             </div>
                         </div>
 
                         {/* Right diff — B */}
-                        <div className="flex flex-col flex-1 min-h-0 gap-1">
+                        <div className="flex flex-col flex-1 min-w-0 gap-1">
                             <div className={`text-[10px] font-mono tracking-wider px-1
                 ${isDark ? 'text-[#3d3d6b]' : 'text-[#d1d5db]'}`}>
                                 B — Modified
                             </div>
-                            <div className="flex-1 min-h-0">
+                            <div className="flex-1 flex flex-col">
                                 <DiffPanel lines={diffResult.rightLines} isDark={isDark} />
                             </div>
                         </div>

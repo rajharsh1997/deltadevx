@@ -77,7 +77,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, onViewChange, isDark, onT
     return (
         <aside
             className={`
-        flex flex-col w-[220px] min-w-[220px] h-full
+        flex flex-col w-[170px] min-w-[170px] h-full
         border-r
         ${isDark
                     ? 'bg-[#0c0c18] border-[#1e1e35]'
@@ -180,28 +180,6 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, onViewChange, isDark, onT
                     <span>{isDark ? <SunIcon /> : <MoonIcon />}</span>
                     <span className="font-mono">{isDark ? 'Light Mode' : 'Dark Mode'}</span>
                 </button>
-
-                {/* Offline badge */}
-                <div
-                    className={`
-            flex items-center gap-2 px-3 py-1.5 rounded-md
-            ${isDark ? 'bg-[#0a0a18]' : 'bg-[#e9eaf0]'}
-          `}
-                >
-                    <span
-                        className={`
-              w-1.5 h-1.5 rounded-full shrink-0 animate-pulse
-              bg-emerald-400
-            `}
-                    />
-                    <span
-                        className={`text-[11px] font-mono font-medium tracking-wider
-              ${isDark ? 'text-[#4b5563]' : 'text-[#9ca3af]'}
-            `}
-                    >
-                        OFFLINE
-                    </span>
-                </div>
             </div>
         </aside>
     )
