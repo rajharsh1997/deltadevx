@@ -1,5 +1,5 @@
 import React from 'react'
-
+import logoUrl from '../assets/logo.png'
 export type View = 'json-diff' | 'jwt-decoder'
 
 interface SidebarProps {
@@ -96,14 +96,11 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, onViewChange, isDark, onT
             >
                 <div className="flex items-center gap-2.5">
                     {/* Logo mark */}
-                    <div
-                        className="w-7 h-7 rounded-md flex items-center justify-center shrink-0"
-                        style={{ background: 'linear-gradient(135deg, #4f6ef7 0%, #7b94fa 100%)' }}
-                    >
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="white" stroke="none">
-                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-                        </svg>
-                    </div>
+                    <img 
+                        src={logoUrl} 
+                        alt="DeltaDevX Logo" 
+                        className="w-7 h-7 shrink-0 object-contain rounded-full shadow-sm"
+                    />
                     <span
                         className={`
               text-[11px] font-bold tracking-[0.2em] font-mono uppercase
