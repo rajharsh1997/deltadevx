@@ -2,8 +2,6 @@
 
 A cross-platform desktop application for developers — built with **Tauri v2 + React + TypeScript + Tailwind CSS**. Works 100% offline.
 
-![DeltaDevX Screenshot](docs/screenshot.png)
-
 ## Features
 
 ### 🔀 JSON Diff
@@ -90,6 +88,9 @@ npm run dev
 - No telemetry, no analytics
 - Fonts loaded via Google Fonts on first launch (cached by browser); falls back to system monospace fonts offline
 - Tauri configured with minimum permissions (no filesystem, no shell access)
+
+## To be fixed
+Target has rpm and deb but not msi as I deveop in fedora. Modify it to equivalent package name if developing in mac/windows.
 
 ## Project Structure
 
