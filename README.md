@@ -2,9 +2,20 @@
 
 A cross-platform desktop application for developers for json utilities — built with **Tauri v2 + React + TypeScript + Tailwind CSS**. Works offline.
 
+## Screenshots
+
+### JSON Diff
+
+![JSON Diff Tool](/public/screenshots/json-diff.png)
+
+### JWT Decoder
+
+![JWT Decoder Tool](/public/screenshots/jwt-decoder.png)
+
 ## Features
 
 ### 🔀 JSON Diff
+
 - Two side-by-side CodeMirror 6 editors with JSON syntax highlighting
 - Deep structural comparison using `jsondiffpatch`
 - LCS-based line diff with red/green highlighted output panels
@@ -12,6 +23,7 @@ A cross-platform desktop application for developers for json utilities — built
 - Inline error messages for invalid JSON
 
 ### 🔐 JWT Decoder
+
 - Paste any JWT and decode header + payload instantly
 - Special handling for `exp`, `iat`, `nbf` fields: shows Unix timestamp + human-readable date
 - Highlights expired tokens with a red warning
@@ -20,13 +32,13 @@ A cross-platform desktop application for developers for json utilities — built
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| Desktop Shell | Tauri v2 (Rust) |
-| UI Framework | React 18 + TypeScript |
-| Styling | Tailwind CSS v3 |
-| JSON Diffing | jsondiffpatch |
-| Build Tool | Vite |
+| Layer         | Technology            |
+| ------------- | --------------------- |
+| Desktop Shell | Tauri v2 (Rust)       |
+| UI Framework  | React 18 + TypeScript |
+| Styling       | Tailwind CSS v3       |
+| JSON Diffing  | jsondiffpatch         |
+| Build Tool    | Vite                  |
 
 ## Prerequisites
 
@@ -89,7 +101,8 @@ npm run dev
 - Tauri configured with minimum permissions (no filesystem, no shell access)
 
 ## To be fixed
-Target has rpm and deb but not msi as I develop in fedora. Modify it to equivalent package name if developing in mac/windows.
+
+Target has rpm and deb but not dmg/exe/msi as I develop in fedora. Modify it to equivalent package name if developing in mac/windows.
 
 ## Project Structure
 
