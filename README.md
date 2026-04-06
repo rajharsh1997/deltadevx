@@ -25,7 +25,6 @@ A cross-platform desktop application for developers for json utilities — built
 | Desktop Shell | Tauri v2 (Rust) |
 | UI Framework | React 18 + TypeScript |
 | Styling | Tailwind CSS v3 |
-| Code Editor | CodeMirror 6 |
 | JSON Diffing | jsondiffpatch |
 | Build Tool | Vite |
 
@@ -90,7 +89,7 @@ npm run dev
 - Tauri configured with minimum permissions (no filesystem, no shell access)
 
 ## To be fixed
-Target has rpm and deb but not msi as I deveop in fedora. Modify it to equivalent package name if developing in mac/windows.
+Target has rpm and deb but not msi as I develop in fedora. Modify it to equivalent package name if developing in mac/windows.
 
 ## Project Structure
 
