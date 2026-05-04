@@ -5,6 +5,6 @@
   "windows": ["main"],
   "permissions": [
     "core:default",
-    "core:window:allow-internal-toggle-devtools"
+    "core:webview:allow-internal-toggle-devtools"
   ]
 }
