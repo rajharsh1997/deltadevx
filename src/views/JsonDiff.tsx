@@ -108,9 +108,20 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ value, onChange, isDark, placeh
 interface DiffPanelProps {
     lines: DiffLine[]
     isDark: boolean
+    searchTerm?: string
 }
 
-const DiffPanel: React.FC<DiffPanelProps> = ({ lines, isDark }) => {
+const DiffPanel: React.FC<DiffPanelProps> = ({ lines, isDark, searchTerm = '' }) => {
+    // Find which lines contain the search term (for highlighting)
+    const matchingLines = new Set<number>()
+    if (searchTerm.trim()) {
+        const searchLower = searchTerm.toLowerCase()
+        lines.forEach((line, idx) => {
+            if (line.content.toLowerCase().includes(searchLower)) {
+                matchingLines.add(idx)
+            }
+        })
+    }
     return (
         <div
             className={`
@@ -129,7 +140,7 @@ const DiffPanel: React.FC<DiffPanelProps> = ({ lines, isDark }) => {
                                     ? isDark ? 'bg-[#331a1a]' : 'bg-[#fee2e2]'
                                     : line.type === 'empty'
                                         ? isDark ? 'bg-[#0e0e1a]' : 'bg-[#f3f4f6]'
-                                        : ''
+                                        : matchingLines.has(idx) ? (isDark ? 'bg-[#2d3a4f]' : 'bg-amber-200') : ''
                             }`}
                     >
                         {/* Line number gutter */}
@@ -176,7 +187,7 @@ const DiffPanel: React.FC<DiffPanelProps> = ({ lines, isDark }) => {
                                         ? isDark ? 'text-[#fca5a5]' : 'text-[#b91c1c]'
                                         : line.type === 'empty'
                                             ? 'text-transparent select-none'
-                                            : isDark ? 'text-[#c5c5d8]' : 'text-[#374151]'
+                                            : matchingLines.has(idx) ? (isDark ? 'text-[#fef08a] font-semibold' : 'text-[#451a03] font-semibold') : (isDark ? 'text-[#c5c5d8]' : 'text-[#374151]')
                                 }
               `}
                         >
@@ -219,6 +230,8 @@ const JsonDiff: React.FC<JsonDiffProps> = ({ isDark }) => {
         hasDiff: boolean
     } | null>(null)
     const [noDiffMsg, setNoDiffMsg] = useState(false)
+    const [diffSearch, setDiffSearch] = useState('')
+    const diffSearchRef = useRef<HTMLInputElement>(null)
 
     const handleFormat = useCallback(() => {
         const resultA = formatJSON(inputA)
@@ -256,6 +269,7 @@ const JsonDiff: React.FC<JsonDiffProps> = ({ isDark }) => {
             const result = computeDiff(inputA || '{}', inputB || '{}')
             setDiffResult(result)
             setNoDiffMsg(!result.hasDiff)
+            setDiffSearch('')
         } catch (e) {
             setErrorA((e as Error).message)
         }
@@ -268,6 +282,21 @@ const JsonDiff: React.FC<JsonDiffProps> = ({ isDark }) => {
         setErrorB('')
         setDiffResult(null)
         setNoDiffMsg(false)
+        setDiffSearch('')
+    }, [])
+
+    // Ctrl+F / Cmd+F focuses the diff search input
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+                if (diffSearchRef.current) {
+                    e.preventDefault()
+                    diffSearchRef.current.focus()
+                }
+            }
+        }
+        window.addEventListener('keydown', handleKeyDown)
+        return () => window.removeEventListener('keydown', handleKeyDown)
     }, [])
 
     return (
@@ -278,7 +307,7 @@ const JsonDiff: React.FC<JsonDiffProps> = ({ isDark }) => {
                 <div className="flex flex-col flex-1 min-w-0 gap-2">
                     <label
                         className={`text-[11px] font-mono font-semibold tracking-widest uppercase
-              ${isDark ? 'text-[#4b5563]' : 'text-[#9ca3af]'}`}
+              ${isDark ? 'text-[#6b7280]' : 'text-[#4b5563]'}`}
                     >
                         JSON Input A
                     </label>
@@ -302,7 +331,7 @@ const JsonDiff: React.FC<JsonDiffProps> = ({ isDark }) => {
                 <div className="flex flex-col flex-1 min-w-0 gap-2">
                     <label
                         className={`text-[11px] font-mono font-semibold tracking-widest uppercase
-              ${isDark ? 'text-[#4b5563]' : 'text-[#9ca3af]'}`}
+              ${isDark ? 'text-[#6b7280]' : 'text-[#4b5563]'}`}
                     >
                         JSON Input B
                     </label>
@@ -374,7 +403,7 @@ const JsonDiff: React.FC<JsonDiffProps> = ({ isDark }) => {
                     <div className="flex items-center gap-3 shrink-0">
                         <label
                             className={`text-[11px] font-mono font-semibold tracking-widest uppercase
-                ${isDark ? 'text-[#4b5563]' : 'text-[#9ca3af]'}`}
+                ${isDark ? 'text-[#6b7280]' : 'text-[#4b5563]'}`}
                         >
                             Comparison Result
                         </label>
@@ -400,26 +429,45 @@ const JsonDiff: React.FC<JsonDiffProps> = ({ isDark }) => {
                         )}
                     </div>
 
+                    {/* Search input */}
+                    <input
+                        ref={diffSearchRef}
+                        type="text"
+                        placeholder="Search to highlight matches..."
+                        value={diffSearch}
+                        onChange={(e) => setDiffSearch(e.target.value)}
+                        className={`
+                    w-full px-3 py-2 rounded-lg border text-[12px] font-mono
+                    transition-colors duration-150 shrink-0
+                    placeholder-[#6b7280]
+                    focus:outline-none focus:ring-1 focus:ring-[#4f6ef7]
+                    ${isDark
+                            ? 'bg-[#12121f] border-[#2a2a45] text-[#c5c5d8]'
+                            : 'bg-white border-[#e5e7eb] text-[#374151]'
+                        }
+                  `}
+                    />
+
                     <div className="flex gap-4">
                         {/* Left diff — A */}
                         <div className="flex flex-col flex-1 min-w-0 gap-1">
-                            <div className={`text-[10px] font-mono tracking-wider px-1
-                ${isDark ? 'text-[#3d3d6b]' : 'text-[#d1d5db]'}`}>
+                            <div className={`text-[10.75px] font-mono font-semibold tracking-wider px-1
+                ${isDark ? 'text-[#6b7280]' : 'text-[#4b5563]'}`}>
                                 A — Base
                             </div>
                             <div className="flex-1 flex flex-col">
-                                <DiffPanel lines={diffResult.leftLines} isDark={isDark} />
+                                <DiffPanel lines={diffResult.leftLines} isDark={isDark} searchTerm={diffSearch} />
                             </div>
                         </div>
 
                         {/* Right diff — B */}
                         <div className="flex flex-col flex-1 min-w-0 gap-1">
-                            <div className={`text-[10px] font-mono tracking-wider px-1
-                ${isDark ? 'text-[#3d3d6b]' : 'text-[#d1d5db]'}`}>
+                            <div className={`text-[10.75px] font-mono font-semibold tracking-wider px-1
+                ${isDark ? 'text-[#6b7280]' : 'text-[#4b5563]'}`}>
                                 B — Modified
                             </div>
                             <div className="flex-1 flex flex-col">
-                                <DiffPanel lines={diffResult.rightLines} isDark={isDark} />
+                                <DiffPanel lines={diffResult.rightLines} isDark={isDark} searchTerm={diffSearch} />
                             </div>
                         </div>
                     </div>

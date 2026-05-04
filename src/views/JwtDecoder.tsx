@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useRef, useEffect } from 'react'
 import { decodeJWT, formatDate, timeFromNow, type DecodedJWT } from '../utils/jwtDecode'
 
 /* ─────────────────────────── JSON Pretty Display ────────────────────────── */
@@ -7,6 +7,7 @@ interface JsonDisplayProps {
     isDark: boolean
     timestampKeys?: string[]
     isExpired?: boolean
+    searchTerm?: string
 }
 
 function syntaxHighlight(json: string, isDark: boolean): React.ReactNode[] {
@@ -59,9 +60,24 @@ const JsonDisplay: React.FC<JsonDisplayProps> = ({
     isDark,
     timestampKeys = ['exp', 'iat', 'nbf'],
     isExpired = false,
+    searchTerm = '',
 }) => {
-    const jsonStr = JSON.stringify(data, null, 2)
+    // Display all data, but identify which lines match the search
+    const displayData = data
+    
+    const jsonStr = JSON.stringify(displayData, null, 2)
     const lines = jsonStr.split('\n')
+
+    // Find which lines contain the search term (for highlighting)
+    const matchingLines = new Set<number>()
+    if (searchTerm.trim()) {
+        const searchLower = searchTerm.toLowerCase()
+        lines.forEach((line, idx) => {
+            if (line.toLowerCase().includes(searchLower)) {
+                matchingLines.add(idx)
+            }
+        })
+    }
 
     // Find which lines contain timestamp keys
     const timestampLineMap: Record<number, { key: string; ts: number }> = {}
@@ -89,7 +105,7 @@ const JsonDisplay: React.FC<JsonDisplayProps> = ({
             <div className="p-4">
                 {lines.map((_, lineIdx) => (
                     <div key={lineIdx}>
-                        <div className="flex">
+                        <div className={`flex ${matchingLines.has(lineIdx) ? (isDark ? 'bg-[#2d3a4f]' : 'bg-amber-200') : ''}`}>
                             {/* Line number */}
                             <span
                                 className={`shrink-0 w-8 text-right mr-4 select-none text-[11px] mt-0.5
@@ -98,7 +114,7 @@ const JsonDisplay: React.FC<JsonDisplayProps> = ({
                                 {lineIdx + 1}
                             </span>
                             {/* Content */}
-                            <span className="flex-1 whitespace-pre-wrap break-all">
+                            <span className={`flex-1 whitespace-pre-wrap break-all ${matchingLines.has(lineIdx) ? (isDark ? 'text-[#fef08a] font-semibold' : 'text-[#451a03] font-semibold') : ''}`}>
                                 {highlightedLines[lineIdx]}
                             </span>
                         </div>
@@ -154,7 +170,7 @@ const ColumnCard: React.FC<ColumnCardProps> = ({ title, children, isDark, badge 
         <div className="flex items-center gap-2 shrink-0">
             <span
                 className={`text-[11px] font-mono font-semibold tracking-widest uppercase
-          ${isDark ? 'text-[#4b5563]' : 'text-[#9ca3af]'}`}
+          ${isDark ? 'text-[#6b7280]' : 'text-[#4b5563]'}`}
             >
                 {title}
             </span>
@@ -178,6 +194,8 @@ const JwtDecoder: React.FC<JwtDecoderProps> = ({ isDark }) => {
     const [token, setToken] = useState('')
     const [decoded, setDecoded] = useState<DecodedJWT | null>(null)
     const [error, setError] = useState('')
+    const [payloadSearch, setPayloadSearch] = useState('')
+    const payloadSearchRef = useRef<HTMLInputElement>(null)
 
     const handleDecode = useCallback(() => {
         const t = token.trim()
@@ -208,13 +226,27 @@ const JwtDecoder: React.FC<JwtDecoderProps> = ({ isDark }) => {
         setError('')
     }, [])
 
+    // Ctrl+F / Cmd+F focuses the payload search input
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+                if (payloadSearchRef.current) {
+                    e.preventDefault()
+                    payloadSearchRef.current.focus()
+                }
+            }
+        }
+        window.addEventListener('keydown', handleKeyDown)
+        return () => window.removeEventListener('keydown', handleKeyDown)
+    }, [])
+
     return (
         <div className="flex flex-col h-full gap-4 p-6 overflow-hidden">
             {/* Token input */}
             <div className="flex flex-col gap-2 shrink-0">
                 <label
                     className={`text-[11px] font-mono font-semibold tracking-widest uppercase
-            ${isDark ? 'text-[#4b5563]' : 'text-[#9ca3af]'}`}
+            ${isDark ? 'text-[#6b7280]' : 'text-[#4b5563]'}`}
                 >
                     JWT Token
                 </label>
@@ -297,8 +329,12 @@ const JwtDecoder: React.FC<JwtDecoderProps> = ({ isDark }) => {
                     </span>
                 )}
                 {decoded && !decoded.isExpired && decoded.expiresAt && (
-                    <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-900/30 border border-emerald-800/40 text-emerald-400 text-xs font-mono animate-fade-in">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block" />
+                    <span className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-mono animate-fade-in
+                        ${isDark
+                            ? 'bg-emerald-900/30 border border-emerald-800/40 text-emerald-400'
+                            : 'bg-emerald-50 border border-emerald-200 text-emerald-700'
+                        }`}>
+                        <span className={`w-1.5 h-1.5 rounded-full inline-block ${isDark ? 'bg-emerald-400' : 'bg-emerald-500'}`} />
                         Valid Token
                     </span>
                 )}
@@ -307,68 +343,99 @@ const JwtDecoder: React.FC<JwtDecoderProps> = ({ isDark }) => {
             {/* Decoded panels */}
             {decoded && (
                 <div className="flex gap-4 flex-1 min-h-0 animate-fade-in">
-                    {/* Header */}
-                    <ColumnCard title="Header" isDark={isDark}>
-                        <JsonDisplay data={decoded.header} isDark={isDark} timestampKeys={[]} />
-                    </ColumnCard>
+                    {/* Left column: Header and Signature */}
+                    <div className="flex flex-col gap-4 w-1/3 min-h-0">
+                        {/* Header */}
+                        <ColumnCard title="Header" isDark={isDark}>
+                            <JsonDisplay data={decoded.header} isDark={isDark} timestampKeys={[]} />
+                        </ColumnCard>
 
-                    {/* Payload */}
-                    <ColumnCard
-                        title="Payload"
-                        isDark={isDark}
-                    >
-                        <JsonDisplay
-                            data={decoded.payload as Record<string, unknown>}
-                            isDark={isDark}
-                            timestampKeys={['exp', 'iat', 'nbf']}
-                            isExpired={decoded.isExpired}
-                        />
-                    </ColumnCard>
-
-                    {/* Signature */}
-                    <ColumnCard title="Signature" isDark={isDark}>
-                        <div
-                            className={`
-                h-full overflow-auto rounded-lg border p-4 flex flex-col gap-4
-                ${isDark ? 'bg-[#12121f] border-[#2a2a45]' : 'bg-[#f9fafb] border-[#e5e7eb]'}
-              `}
-                        >
-                            <div>
-                                <div
-                                    className={`text-[10.5px] font-mono uppercase tracking-wider mb-2
-                    ${isDark ? 'text-[#3d3d6b]' : 'text-[#d1d5db]'}`}
-                                >
-                                    Raw Signature
-                                </div>
-                                <div
-                                    className={`
-                    font-mono text-[11.5px] break-all leading-relaxed
-                    ${isDark ? 'text-[#7b94fa]' : 'text-[#4f6ef7]'}
-                  `}
-                                >
-                                    {decoded.signature}
-                                </div>
-                            </div>
-
+                        {/* Signature */}
+                        <ColumnCard title="Signature" isDark={isDark}>
                             <div
                                 className={`
-                  mt-auto p-3 rounded-lg border text-[11.5px] font-sans leading-relaxed
-                  ${isDark
-                                        ? 'bg-[#1a1a2e] border-[#2a2a45] text-[#4b5563]'
-                                        : 'bg-[#f3f4f6] border-[#e5e7eb] text-[#9ca3af]'
-                                    }
-                `}
+                    h-full overflow-auto rounded-lg border p-4 flex flex-col gap-4
+                    ${isDark ? 'bg-[#12121f] border-[#2a2a45]' : 'bg-[#f9fafb] border-[#e5e7eb]'}
+                  `}
                             >
-                                <div className="flex items-start gap-2">
-                                    <span className="text-amber-500 shrink-0">⚠</span>
-                                    <span>
-                                        Signature verification requires the secret key and is <strong>not</strong> performed here.
-                                        This tool only decodes — it does not validate the token's authenticity.
-                                    </span>
+                                <div>
+                                    <div
+                                        className={`text-[10.75px] font-mono uppercase tracking-wider mb-2 font-semibold
+                        ${isDark ? 'text-[#6b7280]' : 'text-[#4b5563]'}`}
+                                    >
+                                        Raw Signature
+                                    </div>
+                                    <div
+                                        className={`
+                        font-mono text-[11.5px] break-all leading-relaxed
+                        ${isDark ? 'text-[#7b94fa]' : 'text-[#4f6ef7]'}
+                      `}
+                                    >
+                                        {decoded.signature}
+                                    </div>
+                                </div>
+
+                                <div
+                                    className={`
+                      mt-auto p-3 rounded-lg border text-[11.5px] font-sans leading-relaxed
+                      ${isDark
+                                            ? 'bg-[#1a1a2e] border-[#2a2a45] text-[#4b5563]'
+                                            : 'bg-[#f3f4f6] border-[#e5e7eb] text-[#9ca3af]'
+                                        }
+                    `}
+                                >
+                                    <div className="flex items-start gap-2">
+                                        <span className="text-amber-500 shrink-0">⚠</span>
+                                        <span>
+                                            Signature verification requires the secret key and is <strong>not</strong> performed here.
+                                            This tool only decodes — it does not validate the token's authenticity.
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
+                        </ColumnCard>
+                    </div>
+
+                    {/* Right column: Payload with search */}
+                    <div className="flex flex-col flex-1 min-h-0 gap-2">
+                        <div className="flex items-center gap-2 shrink-0">
+                            <span
+                                className={`text-[11px] font-mono font-semibold tracking-widest uppercase
+                    ${isDark ? 'text-[#6b7280]' : 'text-[#4b5563]'}`}
+                            >
+                                Payload
+                            </span>
                         </div>
-                    </ColumnCard>
+                        
+                        {/* Search input */}
+                        <input
+                            ref={payloadSearchRef}
+                            type="text"
+                            placeholder="Search to highlight matches..."
+                            value={payloadSearch}
+                            onChange={(e) => setPayloadSearch(e.target.value)}
+                            className={`
+                    w-full px-3 py-2 rounded-lg border text-[12px] font-mono
+                    transition-colors duration-150 shrink-0
+                    placeholder-[#6b7280]
+                    focus:outline-none focus:ring-1 focus:ring-[#4f6ef7]
+                    ${isDark
+                                ? 'bg-[#12121f] border-[#2a2a45] text-[#c5c5d8]'
+                                : 'bg-white border-[#e5e7eb] text-[#374151]'
+                            }
+                  `}
+                        />
+                        
+                        <div className="flex-1 min-h-0 overflow-hidden">
+                            <JsonDisplay
+                                data={decoded.payload as Record<string, unknown>}
+                                isDark={isDark}
+                                timestampKeys={['exp', 'iat', 'nbf']}
+                                isExpired={decoded.isExpired}
+                                searchTerm={payloadSearch}
+                            />
+                        </div>
+                    </div>
                 </div>
             )}
 

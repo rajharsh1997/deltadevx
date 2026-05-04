@@ -20,14 +20,9 @@ const JsonDiffIcon = () => (
         strokeLinecap="round"
         strokeLinejoin="round"
     >
-        <path d="M8 6h13" />
-        <path d="M8 12h13" />
-        <path d="M8 18h13" />
-        <path d="M3 6l.01 0" />
-        <path d="M3 12l.01 0" />
-        <path d="M3 18l.01 0" />
-        <line x1="16" y1="3" x2="20" y2="7" />
-        <line x1="20" y1="3" x2="16" y2="7" />
+        <path d="M7 5l-5 7 5 7" />
+        <path d="M17 5l5 7-5 7" />
+        <line x1="11" y1="3" x2="13" y2="21" />
     </svg>
 )
 
@@ -146,9 +141,6 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, onViewChange, isDark, onT
                                 <Icon />
                             </span>
                             <span className="font-mono text-[12.5px] tracking-wide">{label}</span>
-                            {isActive && (
-                                <span className="ml-auto w-1.5 h-1.5 rounded-full bg-[#4f6ef7] shrink-0" />
-                            )}
                         </button>
                     )
                 })}
