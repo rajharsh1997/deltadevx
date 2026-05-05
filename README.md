@@ -95,14 +95,28 @@ npm run dev
 
 ## Privacy & Network
 
-- Zero network requests at runtime
+- Zero network requests at runtime — fully offline
 - No telemetry, no analytics
-- Fonts loaded via Google Fonts on first launch (cached by browser); falls back to system monospace fonts offline
+- All fonts are system fonts (no external requests)
 - Tauri configured with minimum permissions (no filesystem, no shell access)
 
-## To be fixed
+## macOS Installation Note
 
-Target has rpm and deb but not dmg/exe/msi as I develop in fedora. Modify it to equivalent package name if developing in mac/windows.
+The app is **ad-hoc signed** (free, no Apple Developer account). On first launch after
+downloading the DMG, macOS Gatekeeper will block it. You have two options:
+
+**Option A — Right-click method (easiest):**
+1. In Finder, right-click `DeltaDevX.app` → **Open**
+2. Click **Open** in the warning dialog
+3. From now on it will open normally
+
+**Option B — Terminal (one-time command):**
+```bash
+sudo xattr -r -d com.apple.quarantine /Applications/DeltaDevX.app
+```
+
+This is standard for any open-source app not distributed through the Mac App Store.
+All processing is local — nothing leaves your machine.
 
 ## Project Structure
 

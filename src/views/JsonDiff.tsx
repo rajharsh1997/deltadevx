@@ -135,12 +135,12 @@ const DiffPanel: React.FC<DiffPanelProps> = ({ lines, isDark, searchTerm = '' })
                     <div
                         key={idx}
                         className={`flex items-stretch min-h-[24px] ${line.type === 'added'
-                                ? isDark ? 'bg-[#1a3320]' : 'bg-[#d1fae5]'
-                                : line.type === 'removed'
-                                    ? isDark ? 'bg-[#331a1a]' : 'bg-[#fee2e2]'
-                                    : line.type === 'empty'
-                                        ? isDark ? 'bg-[#0e0e1a]' : 'bg-[#f3f4f6]'
-                                        : matchingLines.has(idx) ? (isDark ? 'bg-[#2d3a4f]' : 'bg-amber-200') : ''
+                            ? isDark ? 'bg-[#1a3320]' : 'bg-[#d1fae5]'
+                            : line.type === 'removed'
+                                ? isDark ? 'bg-[#331a1a]' : 'bg-[#fee2e2]'
+                                : line.type === 'empty'
+                                    ? isDark ? 'bg-[#0e0e1a]' : 'bg-[#f3f4f6]'
+                                    : matchingLines.has(idx) ? (isDark ? 'bg-[#2d3a4f]' : 'bg-amber-200') : ''
                             }`}
                     >
                         {/* Line number gutter */}
@@ -219,6 +219,40 @@ const PLACEHOLDER_B = `{
   "active": false
 }`
 
+const EXAMPLE_JSON_A = `{
+  "user": {
+    "id": "usr_8f3k2p",
+    "name": "John Doe",
+    "email": "john_doe@example.com",
+    "role": "admin",
+    "active": true,
+    "plan": "pro",
+    "createdAt": "2024-01-15T08:30:00Z",
+    "preferences": {
+      "theme": "dark",
+      "language": "en",
+      "notifications": true
+    }
+  }
+}`
+
+const EXAMPLE_JSON_B = `{
+  "user": {
+    "id": "usr_8f3k2p",
+    "name": "John Doe",
+    "email": "john@company.com",
+    "role": "owner",
+    "active": true,
+    "plan": "enterprise",
+    "createdAt": "2024-01-15T08:30:00Z",
+    "preferences": {
+      "theme": "light",
+      "language": "en",
+      "notifications": false
+    }
+  }
+}`
+
 const JsonDiff: React.FC<JsonDiffProps> = ({ isDark }) => {
     const [inputA, setInputA] = useState('')
     const [inputB, setInputB] = useState('')
@@ -274,6 +308,16 @@ const JsonDiff: React.FC<JsonDiffProps> = ({ isDark }) => {
             setErrorA((e as Error).message)
         }
     }, [inputA, inputB])
+
+    const handleLoadExample = useCallback(() => {
+        setInputA(EXAMPLE_JSON_A)
+        setInputB(EXAMPLE_JSON_B)
+        setErrorA('')
+        setErrorB('')
+        setDiffResult(null)
+        setNoDiffMsg(false)
+        setDiffSearch('')
+    }, [])
 
     const handleClear = useCallback(() => {
         setInputA('')
@@ -382,6 +426,20 @@ const JsonDiff: React.FC<JsonDiffProps> = ({ isDark }) => {
                     Format JSON
                 </button>
                 <button
+                    id="example-btn"
+                    onClick={handleLoadExample}
+                    className={`
+            px-4 py-2 rounded-lg text-sm font-medium font-mono
+            transition-all duration-150 cursor-pointer
+            ${isDark
+                            ? 'bg-[#1e1e35] hover:bg-[#252545] text-[#9595b4] border border-[#2a2a45]'
+                            : 'bg-white hover:bg-[#f3f4f6] text-[#374151] border border-[#e5e7eb]'
+                        }
+          `}
+                >
+                    Load Example
+                </button>
+                <button
                     id="clear-btn"
                     onClick={handleClear}
                     className={`
@@ -442,9 +500,9 @@ const JsonDiff: React.FC<JsonDiffProps> = ({ isDark }) => {
                     placeholder-[#6b7280]
                     focus:outline-none focus:ring-1 focus:ring-[#4f6ef7]
                     ${isDark
-                            ? 'bg-[#12121f] border-[#2a2a45] text-[#c5c5d8]'
-                            : 'bg-white border-[#e5e7eb] text-[#374151]'
-                        }
+                                ? 'bg-[#12121f] border-[#2a2a45] text-[#c5c5d8]'
+                                : 'bg-white border-[#e5e7eb] text-[#374151]'
+                            }
                   `}
                     />
 

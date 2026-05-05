@@ -15,7 +15,7 @@ jobs:
       matrix:
         include:
           - platform: macos-latest
-            args: "--bundles app,dmg"
+            args: "--bundles app,dmg --target universal-apple-darwin"
           - platform: ubuntu-22.04
             args: "--bundles deb,rpm"
           - platform: windows-latest
@@ -32,6 +32,8 @@ jobs:
 
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
 
       - name: Install dependencies (Ubuntu only)
         if: matrix.platform == 'ubuntu-22.04'
@@ -53,3 +55,18 @@ jobs:
           releaseDraft: true
           prerelease: false
           args: ${{ matrix.args }}
+
+      # ── Free ad-hoc signing for macOS (no Apple account required) ──────────
+      # signingIdentity "-" in tauri.conf.json handles this at build time,
+      # but this step deep-re-signs to catch any unsigned nested binaries.
+      - name: Ad-hoc sign macOS app (free, no Apple account needed)
+        if: matrix.platform == 'macos-latest'
+        run: |
+          APP=$(find src-tauri/target/universal-apple-darwin/release/bundle/macos -name "*.app" | head -1)
+          if [ -n "$APP" ]; then
+            echo "Ad-hoc signing: $APP"
+            codesign --force --deep --sign - "$APP"
+            echo "✅ Ad-hoc signed successfully"
+          else
+            echo "⚠️  No .app found to sign — skipping"
+          fi
