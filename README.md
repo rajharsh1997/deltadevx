@@ -1,5 +1,7 @@
 # DeltaDevX
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
 A cross-platform desktop application for developers for json utilities — built with **Tauri v2 + React + TypeScript + Tailwind CSS**. Works offline.
 
 ## Screenshots
@@ -144,3 +146,7 @@ deltadevx/
 ├── vite.config.ts
 └── package.json
 ```
+
+## License
+
+MIT © 2026 DeltaDevX — see [LICENSE](LICENSE) for details.
