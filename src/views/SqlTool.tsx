@@ -6,7 +6,7 @@ interface SqlToolProps {
     isDark: boolean
 }
 
-type Dialect = 'sql' | 'mysql' | 'postgresql' | 'sqlite' | 'tsql'
+type Dialect = 'sql' | 'mysql' | 'postgresql' | 'sqlite' | 'tsql' | 'plsql'
 type Mode = 'formatter' | 'builder' | 'nl'
 type Operator = '=' | '!=' | '>' | '<' | '>=' | '<=' | 'LIKE' | 'IN' | 'IS NULL' | 'IS NOT NULL'
 type JoinType = 'INNER JOIN' | 'LEFT JOIN' | 'RIGHT JOIN' | 'FULL JOIN' | 'CROSS JOIN'
@@ -36,7 +36,8 @@ const DIALECTS: { value: Dialect; label: string }[] = [
     { value: 'mysql', label: 'MySQL' },
     { value: 'postgresql', label: 'PostgreSQL' },
     { value: 'sqlite', label: 'SQLite' },
-    { value: 'tsql', label: 'T-SQL' },
+    { value: 'tsql', label: 'T-SQL (MSSQL)' },
+    { value: 'plsql', label: 'Oracle SQL' },
 ]
 
 const OPERATORS: Operator[] = ['=', '!=', '>', '<', '>=', '<=', 'LIKE', 'IN', 'IS NULL', 'IS NOT NULL']
@@ -126,6 +127,7 @@ const FormatterPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
                     id="sql-dialect-select"
                     value={dialect}
                     onChange={e => setDialect(e.target.value as Dialect)}
+                    style={{ colorScheme: isDark ? 'dark' : 'light' }}
                     className={`px-3 py-2 rounded-lg border text-[13px] font-mono transition-colors duration-150 cursor-pointer
                         focus:outline-none focus:ring-1 focus:ring-[#4f6ef7]
                         ${isDark ? 'bg-[#1e1e35] border-[#2a2a45] text-[#9595b4]' : 'bg-white border-[#d1d5db] text-[#111827]'}`}
@@ -152,11 +154,10 @@ const FormatterPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
             </div>
 
             {error && (
-                <div className={`flex items-start gap-2 px-3 py-2 rounded-md text-xs font-mono ${
-                    isDark
+                <div className={`flex items-start gap-2 px-3 py-2 rounded-md text-xs font-mono ${isDark
                         ? 'bg-red-900/30 border border-red-800/40 text-red-400'
                         : 'bg-red-50 border border-red-200 text-red-600'
-                }`}>
+                    }`}>
                     <span className="shrink-0">⚠</span><span>{error}</span>
                 </div>
             )}
@@ -315,7 +316,7 @@ const BuilderPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
                         <span>Dialect</span>
                         <button onClick={handleLoadExample} className={addBtn}>Load Example</button>
                     </div>
-                    <select id="builder-dialect" value={dialect} onChange={e => setDialect(e.target.value as Dialect)} className={`${selectCls} w-full`}>
+                    <select id="builder-dialect" value={dialect} onChange={e => setDialect(e.target.value as Dialect)} style={{ colorScheme: isDark ? 'dark' : 'light' }} className={`${selectCls} w-full`}>
                         {DIALECTS.map(d => <option key={d.value} value={d.value}>{d.label}</option>)}
                     </select>
                 </div>
@@ -370,7 +371,7 @@ const BuilderPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
                     <div className="flex flex-col gap-2">
                         {joins.map(j => (
                             <div key={j.id} className={`p-2 rounded-md border ${isDark ? 'border-[#2a2a45] bg-[#0d0d1a]/50' : 'border-[#e5e7eb] bg-white/50'}`}>
-                                <select value={j.type} onChange={e => updateJoin(j.id, { type: e.target.value as JoinType })} className={`${selectCls} w-full mb-1.5`}>
+                                <select value={j.type} onChange={e => updateJoin(j.id, { type: e.target.value as JoinType })} style={{ colorScheme: isDark ? 'dark' : 'light' }} className={`${selectCls} w-full mb-1.5`}>
                                     {JOIN_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
                                 </select>
                                 <div className="flex items-center gap-1.5 mb-1.5">
@@ -405,7 +406,7 @@ const BuilderPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
                             <div key={r.id} className="flex items-center gap-1.5 flex-wrap">
                                 <input type="text" value={r.field} onChange={e => updateWhere(r.id, { field: e.target.value })}
                                     placeholder="field" className={`${inputCls} w-[90px]`} />
-                                <select value={r.op} onChange={e => updateWhere(r.id, { op: e.target.value as Operator })} className={`${selectCls} flex-1`}>
+                                <select value={r.op} onChange={e => updateWhere(r.id, { op: e.target.value as Operator })} style={{ colorScheme: isDark ? 'dark' : 'light' }} className={`${selectCls} flex-1`}>
                                     {OPERATORS.map(o => <option key={o} value={o}>{o}</option>)}
                                 </select>
                                 {r.op !== 'IS NULL' && r.op !== 'IS NOT NULL' && (
@@ -438,7 +439,7 @@ const BuilderPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
                     <div className="flex gap-2">
                         <input id="builder-order-field" type="text" value={orderField} onChange={e => setOrderField(e.target.value)}
                             placeholder="created_at" className={`${inputCls} flex-1`} />
-                        <select id="builder-order-dir" value={orderDir} onChange={e => setOrderDir(e.target.value as 'ASC' | 'DESC')} className={selectCls}>
+                        <select id="builder-order-dir" value={orderDir} onChange={e => setOrderDir(e.target.value as 'ASC' | 'DESC')} style={{ colorScheme: isDark ? 'dark' : 'light' }} className={selectCls}>
                             <option value="DESC">DESC</option>
                             <option value="ASC">ASC</option>
                         </select>
@@ -584,20 +585,20 @@ const NLPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
                             Generated SQL
                         </label>
                         <div className="flex items-center gap-2">
-                        {result?.sql && (
-                            <button id="nl-copy-btn" onClick={handleCopy}
-                                className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all duration-150 cursor-pointer border
+                            {result?.sql && (
+                                <button id="nl-copy-btn" onClick={handleCopy}
+                                    className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all duration-150 cursor-pointer border
                                     ${isDark ? 'bg-[#1e1e35] border-[#2a2a45] text-[#9595b4] hover:bg-[#252545]' : 'bg-white border-[#d1d5db] text-[#111827] hover:bg-[#f3f4f6]'}`}>
-                                {copied ? 'Copied!' : 'Copy SQL'}
-                            </button>
-                        )}
-                        {result?.sql && (
-                            <button id="nl-format-btn" onClick={handleFormatSQL}
-                                className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all duration-150 cursor-pointer border
+                                    {copied ? 'Copied!' : 'Copy SQL'}
+                                </button>
+                            )}
+                            {result?.sql && (
+                                <button id="nl-format-btn" onClick={handleFormatSQL}
+                                    className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all duration-150 cursor-pointer border
                                     ${isDark ? 'bg-[#1e1e35] border-[#2a2a45] text-[#9595b4] hover:bg-[#252545]' : 'bg-white border-[#d1d5db] text-[#111827] hover:bg-[#f3f4f6]'}`}>
-                                Format SQL
-                            </button>
-                        )}
+                                    Format SQL
+                                </button>
+                            )}
                         </div>
                     </div>
                     {result ? (
@@ -622,7 +623,7 @@ const NLPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
                     ) : (
                         <div className={`flex-1 rounded-md border overflow-auto flex items-center justify-center min-h-[250px] ${isDark ? 'bg-[#0d0d1a] border-[#2a2a45]' : 'bg-[#f9fafb] border-[#e5e7eb]'}`}>
                             <p className={`text-[13px] font-mono ${isDark ? 'text-[#6b7280]' : 'text-[#6b7280]'}`}>
-                                Type a description above and click "Generate SQL"
+                                Type a description and click "Generate SQL"
                             </p>
                         </div>
                     )}
@@ -647,11 +648,11 @@ const SqlTool: React.FC<SqlToolProps> = ({ isDark }) => {
         <div className={`flex flex-col min-h-full gap-4 p-6 min-w-[900px] ${isDark ? 'text-[#d1d5db]' : 'text-[#1f2937]'}`}>
             {/* Mode tabs - Apple Glass Segmented Control */}
             <div className={`relative flex items-center p-1 rounded-xl w-fit
-                ${isDark ? 'bg-[#0e0e18]/80 backdrop-blur-xl border border-white/5 shadow-inner' 
-                         : 'bg-[#e5e7eb]/70 backdrop-blur-xl border border-black/[0.04] shadow-inner'}`}>
-                
+                ${isDark ? 'bg-[#0e0e18]/80 backdrop-blur-xl border border-white/5 shadow-inner'
+                    : 'bg-[#e5e7eb]/70 backdrop-blur-xl border border-black/[0.04] shadow-inner'}`}>
+
                 {/* Sliding Background */}
-                <div 
+                <div
                     className={`absolute top-1 bottom-1 w-[160px] rounded-lg transition-transform duration-300 ease-out
                         ${isDark ? 'bg-[#2a2a45] border border-white/10 shadow-sm' : 'bg-white border border-black/[0.04] shadow-[0_2px_8px_rgba(0,0,0,0.08)]'}`}
                     style={{ transform: `translateX(${activeIndex * 100}%)` }}
