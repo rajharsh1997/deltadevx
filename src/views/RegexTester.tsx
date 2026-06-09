@@ -154,7 +154,7 @@ const RegexTester: React.FC<RegexTesterProps> = ({ isDark }) => {
     const inputCls = `w-full px-3 py-2.5 rounded-md border font-mono text-[13px] transition-colors duration-150
         focus:outline-none focus:ring-1 focus:ring-[#4f6ef7]
         ${isDark ? 'bg-[#12121f] border-[#2a2a45] text-[#c5c5d8] placeholder-[#3d3d6b]'
-            : 'bg-white border-[#e5e7eb] text-[#374151] placeholder-[#d1d5db]'}`
+            : 'bg-white border-[#e5e7eb] text-[#374151] placeholder-[#9ca3af]'}`
 
     return (
         <div className="flex flex-col min-h-full gap-5 p-6 min-w-[720px] text-[#d1d5db]">
@@ -175,7 +175,7 @@ const RegexTester: React.FC<RegexTesterProps> = ({ isDark }) => {
                         placeholder="Enter pattern…"
                         spellCheck={false}
                         className={`flex-1 py-2.5 font-mono text-[13px] bg-transparent focus:outline-none
-                            ${isDark ? 'text-[#c5c5d8] placeholder-[#3d3d6b]' : 'text-[#374151] placeholder-[#d1d5db]'}`}
+                            ${isDark ? 'text-[#c5c5d8] placeholder-[#3d3d6b]' : 'text-[#374151] placeholder-[#9ca3af]'}`}
                     />
                     <span className={`px-1 font-mono text-lg select-none ${isDark ? 'text-[#4f6ef7]' : 'text-[#4f6ef7]'}`}>/</span>
                     <span className={`pr-3 font-mono text-[13px] min-w-[28px] ${isDark ? 'text-[#a5b4fc]' : 'text-[#4f6ef7]'}`}>{flagStr}</span>

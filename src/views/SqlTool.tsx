@@ -112,7 +112,7 @@ const FormatterPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
     const inputCls = `w-full p-3 rounded-md border font-mono text-[13px] leading-[1.6] transition-colors duration-150 resize-none
         focus:outline-none focus:ring-1 focus:ring-[#4f6ef7]
         ${isDark ? 'bg-[#12121f] border-[#2a2a45] text-[#c5c5d8] placeholder-[#3d3d6b]'
-            : 'bg-white border-[#e5e7eb] text-[#374151] placeholder-[#d1d5db]'}`
+            : 'bg-white border-[#e5e7eb] text-[#374151] placeholder-[#9ca3af]'}`
 
     const btnSecondary = isDark
         ? 'bg-[#1e1e35] hover:bg-[#252545] text-[#9595b4] border border-[#2a2a45]'
@@ -152,7 +152,11 @@ const FormatterPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
             </div>
 
             {error && (
-                <div className="flex items-start gap-2 px-3 py-2 rounded-md bg-red-900/30 border border-red-800/40 text-red-400 text-xs font-mono">
+                <div className={`flex items-start gap-2 px-3 py-2 rounded-md text-xs font-mono ${
+                    isDark
+                        ? 'bg-red-900/30 border border-red-800/40 text-red-400'
+                        : 'bg-red-50 border border-red-200 text-red-600'
+                }`}>
                     <span className="shrink-0">⚠</span><span>{error}</span>
                 </div>
             )}
@@ -263,7 +267,7 @@ const BuilderPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
     const inputCls = `px-2.5 py-1.5 rounded-md border font-mono text-[12px] transition-colors duration-150
         focus:outline-none focus:ring-1 focus:ring-[#4f6ef7]
         ${isDark ? 'bg-[#12121f] border-[#2a2a45] text-[#c5c5d8] placeholder-[#3d3d6b]'
-            : 'bg-white border-[#e5e7eb] text-[#374151] placeholder-[#d1d5db]'}`
+            : 'bg-white border-[#e5e7eb] text-[#374151] placeholder-[#9ca3af]'}`
 
     const selectCls = `px-2.5 py-1.5 rounded-md border font-mono text-[12px] transition-colors duration-150 cursor-pointer
         focus:outline-none focus:ring-1 focus:ring-[#4f6ef7]
@@ -470,14 +474,11 @@ const NLPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
         setTimeout(() => setCopied(false), 1500)
     }, [result])
 
-    // Example NL queries
+    // Example NL queries — keep max 3
     const examples = [
         'Show all users',
         'Get top 10 orders by total desc',
         'Count users by status where active is true',
-        'List name email from orders where total > 100 order by created_at desc limit 20',
-        'Find customers in New York with 5 recent orders',
-        'Show distinct cities from users table',
     ]
 
     const loadExample = (ex: string) => {
@@ -488,7 +489,7 @@ const NLPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
     const inputCls = `w-full p-3 rounded-md border font-mono text-[13px] leading-[1.6] transition-colors duration-150 resize-none
         focus:outline-none focus:ring-1 focus:ring-[#4f6ef7]
         ${isDark ? 'bg-[#12121f] border-[#2a2a45] text-[#c5c5d8] placeholder-[#3d3d6b]'
-            : 'bg-white border-[#e5e7eb] text-[#374151] placeholder-[#d1d5db]'}`
+            : 'bg-white border-[#e5e7eb] text-[#374151] placeholder-[#9ca3af]'}`
 
     const btnSecondary = isDark
         ? 'bg-[#1e1e35] hover:bg-[#252545] text-[#9595b4] border border-[#2a2a45]'

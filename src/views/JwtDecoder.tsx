@@ -256,12 +256,12 @@ const JwtDecoder: React.FC<JwtDecoderProps> = ({ isDark }) => {
                     onChange={(e) => setToken(e.target.value)}
                     rows={4}
                     spellCheck={false}
-                    placeholder="Paste your JWT token here... (e.g. eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...)"
+                    placeholder={`Paste your JWT token here... (e.g. eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...)`}
                     className={`
             w-full resize-none rounded-lg border p-3
             font-mono text-[12.5px] leading-relaxed
             transition-colors duration-150
-            placeholder-[#3d3d6b]
+            ${isDark ? 'placeholder-[#3d3d6b]' : 'placeholder-[#9ca3af]'}
             focus:outline-none focus:ring-1 focus:ring-[#4f6ef7]
             ${isDark
                             ? 'bg-[#12121f] border-[#2a2a45] text-[#c5c5d8]'
@@ -270,7 +270,11 @@ const JwtDecoder: React.FC<JwtDecoderProps> = ({ isDark }) => {
           `}
                 />
                 {error && (
-                    <div className="flex items-start gap-2 px-3 py-2 rounded-md bg-red-900/30 border border-red-800/40 text-red-400 text-xs font-mono">
+                    <div className={`flex items-start gap-2 px-3 py-2 rounded-md text-xs font-mono ${
+                        isDark
+                            ? 'bg-red-900/30 border border-red-800/40 text-red-400'
+                            : 'bg-red-50 border border-red-200 text-red-600'
+                    }`}>
                         <span className="shrink-0 mt-0.5">⚠</span>
                         <span>{error}</span>
                     </div>
@@ -417,7 +421,7 @@ const JwtDecoder: React.FC<JwtDecoderProps> = ({ isDark }) => {
                             className={`
                     w-full px-3 py-2 rounded-lg border text-[12px] font-mono
                     transition-colors duration-150 shrink-0
-                    placeholder-[#6b7280]
+                    ${isDark ? 'placeholder-[#6b7280]' : 'placeholder-[#9ca3af]'}
                     focus:outline-none focus:ring-1 focus:ring-[#4f6ef7]
                     ${isDark
                                 ? 'bg-[#12121f] border-[#2a2a45] text-[#c5c5d8]'

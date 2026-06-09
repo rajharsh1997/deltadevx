@@ -129,7 +129,7 @@ const TokenCounter: React.FC<TokenCounterProps> = ({ isDark }) => {
                         focus:outline-none focus:ring-1 focus:ring-[#4f6ef7]
                         ${isDark
                             ? 'bg-[#12121f] border-[#2a2a45] text-[#e8e8f0] placeholder-[#6b7280]'
-                            : 'bg-white border-[#e5e7eb] text-[#111827] placeholder-[#9ca3af]'
+                            : 'bg-white border-[#e5e7eb] text-[#111827] placeholder-[#6b7280]'
                         }`}
                 />
                 <p className={`text-[11px] font-mono ${isDark ? 'text-[#6b7280]' : 'text-[#9ca3af]'}`}>

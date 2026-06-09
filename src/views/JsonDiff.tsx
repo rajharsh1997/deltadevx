@@ -2,10 +2,28 @@ import React, { useRef, useEffect, useState, useCallback } from 'react'
 import { EditorView, basicSetup } from 'codemirror'
 import { json } from '@codemirror/lang-json'
 import { oneDark } from '@codemirror/theme-one-dark'
+import { syntaxHighlighting, HighlightStyle } from '@codemirror/language'
+import { tags } from '@lezer/highlight'
 import { EditorState } from '@codemirror/state'
 import { computeDiff, formatJSON, type DiffLine } from '../utils/jsonDiff'
 
 /* ─────────────────────────── Light Theme ─────────────────────────────────── */
+
+// Syntax highlighting for JSON in light mode — overrides the default highlight
+// style (which can show string/number tokens in odd colours).
+const lightSyntax = HighlightStyle.define([
+    { tag: tags.keyword, color: '#7c3aed' },            // true / false / null
+    { tag: tags.string, color: '#059669' },              // "string values"
+    { tag: tags.number, color: '#2563eb' },              // numeric values
+    { tag: tags.bool, color: '#7c3aed' },                // booleans
+    { tag: tags.null, color: '#7c3aed' },                // null
+    { tag: tags.punctuation, color: '#6b7280' },         // { } [ ] , :
+    { tag: tags.propertyName, color: '#d97706' },        // JSON keys
+    { tag: tags.separator, color: '#9ca3af' },           // , :
+    { tag: tags.bracket, color: '#6b7280' },             // [ ]
+    { tag: tags.brace, color: '#6b7280' },               // { }
+])
+
 const lightTheme = EditorView.theme(
     {
         '&': {
@@ -25,6 +43,9 @@ const lightTheme = EditorView.theme(
         },
         '.cm-selectionBackground': {
             backgroundColor: '#4f6ef730 !important',
+        },
+        '.cm-cursor': {
+            borderLeftColor: '#1a1a2e !important',
         },
     },
     { dark: false }
@@ -52,6 +73,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ value, onChange, isDark, placeh
                 json(),
                 EditorView.lineWrapping,
                 isDark ? oneDark : lightTheme,
+                isDark ? [] : syntaxHighlighting(lightSyntax),
                 EditorView.updateListener.of((update) => {
                     if (update.docChanged) {
                         onChange(update.state.doc.toString())
@@ -497,7 +519,7 @@ const JsonDiff: React.FC<JsonDiffProps> = ({ isDark }) => {
                         className={`
                     w-full px-3 py-2 rounded-lg border text-[12px] font-mono
                     transition-colors duration-150 shrink-0
-                    placeholder-[#6b7280]
+                    ${isDark ? 'placeholder-[#6b7280]' : 'placeholder-[#9ca3af]'}
                     focus:outline-none focus:ring-1 focus:ring-[#4f6ef7]
                     ${isDark
                                 ? 'bg-[#12121f] border-[#2a2a45] text-[#c5c5d8]'

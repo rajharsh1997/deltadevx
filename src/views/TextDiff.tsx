@@ -118,7 +118,7 @@ const TextEditor: React.FC<{ label: string; value: string; onChange: (v: string)
                 focus:outline-none focus:ring-1 focus:ring-[#4f6ef7]
                 ${isDark
                     ? 'bg-[#12121f] border-[#2a2a45] text-[#c5c5d8] placeholder-[#3d3d6b]'
-                    : 'bg-white border-[#e5e7eb] text-[#374151] placeholder-[#d1d5db]'
+                    : 'bg-[#f9fafb] border-[#e5e7eb] text-[#374151] placeholder-[#9ca3af]'
                 }`}
         />
     </div>

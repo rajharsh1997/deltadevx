@@ -76,8 +76,6 @@ body {
   height: 100% !important;
   font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace !important;
   font-size: 13px !important;
-  /* Explicit background prevents macOS 26 WebKit off-screen compositor bug */
-  background: #12121f !important;
 }
 
 .cm-editor.cm-focused {
@@ -90,9 +88,6 @@ body {
 }
 
 .cm-gutters {
-  background-color: #12121f !important;
-  border-right: 1px solid #2a2a45 !important;
-  color: #3d3d6b !important;
   min-width: 40px !important;
 }
 
