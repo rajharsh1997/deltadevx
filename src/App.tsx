@@ -3,6 +3,10 @@ import Sidebar, { type View } from './components/Sidebar'
 import TopBar from './components/TopBar'
 import JsonDiff from './views/JsonDiff'
 import JwtDecoder from './views/JwtDecoder'
+import TextDiff from './views/TextDiff'
+import SqlTool from './views/SqlTool'
+import RegexTester from './views/RegexTester'
+import TokenCounter from './views/TokenCounter'
 
 function App() {
   const [activeView, setActiveView] = useState<View>('json-diff')
@@ -42,6 +46,10 @@ function App() {
         <main className="flex-1 overflow-y-auto overflow-x-hidden">
           {activeView === 'json-diff' && <JsonDiff isDark={isDark} />}
           {activeView === 'jwt-decoder' && <JwtDecoder isDark={isDark} />}
+          {activeView === 'text-diff' && <TextDiff isDark={isDark} />}
+          {activeView === 'sql-tool' && <SqlTool isDark={isDark} />}
+          {activeView === 'regex-tester' && <RegexTester isDark={isDark} />}
+          {activeView === 'token-counter' && <TokenCounter isDark={isDark} />}
         </main>
       </div>
     </div>

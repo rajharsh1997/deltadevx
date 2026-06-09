@@ -18,10 +18,14 @@
     "@codemirror/view": "^6.36.5",
     "@tauri-apps/api": "^2.11.0",
     "@tauri-apps/plugin-opener": "^2.5.4",
+    "@types/diff": "^7.0.2",
     "codemirror": "^6.0.1",
+    "diff": "^9.0.0",
+    "gpt-tokenizer": "^3.4.0",
     "jsondiffpatch": "^0.6.0",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "sql-formatter": "^15.8.1"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.10",

@@ -15,6 +15,22 @@ const viewMeta: Record<View, { title: string; subtitle: string }> = {
         title: 'JWT Decoder',
         subtitle: 'Decode and inspect JSON Web Tokens — header, payload, and signature',
     },
+    'text-diff': {
+        title: 'Text Diff',
+        subtitle: 'Compare two plain-text documents and visualize line-by-line differences',
+    },
+    'sql-tool': {
+        title: 'SQL Tool',
+        subtitle: 'Format raw SQL or visually build SELECT queries with a live preview',
+    },
+    'regex-tester': {
+        title: 'Regex Tester',
+        subtitle: 'Test regular expressions with live match highlighting and capture group display',
+    },
+    'token-counter': {
+        title: 'Token Counter',
+        subtitle: 'Count LLM tokens using cl100k_base encoding with model cost reference — fully offline',
+    },
 }
 
 const TopBar: React.FC<TopBarProps> = ({ activeView, isDark }) => {
@@ -39,7 +55,7 @@ const TopBar: React.FC<TopBarProps> = ({ activeView, isDark }) => {
                 <p
                     className={`
             text-xs mt-0.5 font-sans
-            ${isDark ? 'text-[#4b5563]' : 'text-[#9ca3af]'}
+            ${isDark ? 'text-[#6b7280]' : 'text-[#6b7280]'}
           `}
                 >
                     {meta.subtitle}

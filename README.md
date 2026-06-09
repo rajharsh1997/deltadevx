@@ -147,6 +147,25 @@ deltadevx/
 └── package.json
 ```
 
+## Roadmap
+
+### 🧠 NL→SQL: Planned Ollama + SQLCoder Integration
+
+The current parser (`src/utils/nlToSQL.ts`) is regex-based and works offline with no dependencies, but struggles with ambiguous phrasing and complex queries. The plan is to add an **optional** local-LLM mode using [Ollama](https://ollama.com) + `sqlcoder` for production-quality results — fully offline and private.
+
+**How it will work:** On enabling "Ollama mode", the app probes `http://localhost:11434` and, if Ollama is running, sends the NL query + optional schema DDL to `sqlcoder`. If Ollama is unreachable, it silently falls back to the regex parser.
+
+**To try it yourself today:**
+```bash
+ollama pull sqlcoder
+```
+
+**Planned tasks:** UI toggle → Ollama health check → model picker → streaming response → graceful fallback.
+
+> The regex parser will always remain the zero-dependency default.
+
+---
+
 ## License
 
 MIT © 2026 DeltaDevX — see [LICENSE](LICENSE) for details.

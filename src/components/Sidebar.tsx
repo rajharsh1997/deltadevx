@@ -1,6 +1,6 @@
 import React from 'react'
 import logoUrl from '../assets/logo.png'
-export type View = 'json-diff' | 'jwt-decoder'
+export type View = 'json-diff' | 'jwt-decoder' | 'text-diff' | 'sql-tool' | 'regex-tester' | 'token-counter'
 
 interface SidebarProps {
     activeView: View
@@ -43,6 +43,36 @@ const JwtIcon = () => (
     </svg>
 )
 
+const TextDiffIcon = () => (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M4 6h16M4 12h8M4 18h12" />
+        <path d="M15 15l4 4m0-4l-4 4" />
+    </svg>
+)
+
+const SqlIcon = () => (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <ellipse cx="12" cy="5" rx="9" ry="3" />
+        <path d="M3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5" />
+        <path d="M3 12c0 1.66 4.03 3 9 3s9-1.34 9-3" />
+    </svg>
+)
+
+const RegexIcon = () => (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="2" />
+        <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+    </svg>
+)
+
+const TokenIcon = () => (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 2L2 7l10 5 10-5-10-5z" />
+        <path d="M2 17l10 5 10-5" />
+        <path d="M2 12l10 5 10-5" />
+    </svg>
+)
+
 const SunIcon = () => (
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
         <circle cx="12" cy="12" r="5" />
@@ -66,6 +96,10 @@ const MoonIcon = () => (
 const navItems: { id: View; label: string; Icon: React.FC }[] = [
     { id: 'json-diff', label: 'JSON Diff', Icon: JsonDiffIcon },
     { id: 'jwt-decoder', label: 'JWT Decoder', Icon: JwtIcon },
+    { id: 'text-diff', label: 'Text Diff', Icon: TextDiffIcon },
+    { id: 'sql-tool', label: 'SQL Tool', Icon: SqlIcon },
+    { id: 'regex-tester', label: 'RegEx', Icon: RegexIcon },
+    { id: 'token-counter', label: 'Tokenizer', Icon: TokenIcon },
 ]
 
 const Sidebar: React.FC<SidebarProps> = ({ activeView, onViewChange, isDark, onToggleTheme }) => {
@@ -99,7 +133,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, onViewChange, isDark, onT
                     <span
                         className={`
               text-[11px] font-bold tracking-[0.2em] font-mono uppercase
-              ${isDark ? 'text-[#9595b4]' : 'text-[#6b7280]'}
+              ${isDark ? 'text-[#b0b0cf]' : 'text-[#4b5563]'}
             `}
                     >
                         DeltaDevX
@@ -124,14 +158,14 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, onViewChange, isDark, onT
                                         ? 'bg-[#252545] text-white shadow-sm'
                                         : 'bg-white text-[#1a1a2e] shadow-sm border border-[#e5e7eb]'
                                     : isDark
-                                        ? 'text-[#6565908a] hover:bg-[#1a1a2e] hover:text-[#9595b4]'
+                                        ? 'text-[#8a8ab0] hover:bg-[#1a1a2e] hover:text-[#c5c5e0]'
                                         : 'text-[#6b7280] hover:bg-[#e9eaf0] hover:text-[#374151]'
                                 }
               `}
                             style={{
                                 color: isActive
                                     ? isDark ? '#e8e8f0' : '#1a1a2e'
-                                    : isDark ? '#6b7280' : '#6b7280',
+                                    : isDark ? '#9ca3af' : '#6b7280',
                             }}
                         >
                             <span
@@ -161,8 +195,8 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, onViewChange, isDark, onT
             w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs
             transition-all duration-150 cursor-pointer
             ${isDark
-                            ? 'text-[#6b7280] hover:bg-[#1a1a2e] hover:text-[#9595b4]'
-                            : 'text-[#9ca3af] hover:bg-[#e9eaf0] hover:text-[#6b7280]'
+                            ? 'text-[#9ca3af] hover:bg-[#1a1a2e] hover:text-[#c5c5e0]'
+                            : 'text-[#6b7280] hover:bg-[#e9eaf0] hover:text-[#374151]'
                         }
           `}
                 >
