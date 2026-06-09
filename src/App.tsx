@@ -7,6 +7,10 @@ import TextDiff from './views/TextDiff'
 import SqlTool from './views/SqlTool'
 import RegexTester from './views/RegexTester'
 import TokenCounter from './views/TokenCounter'
+import Base64 from './views/Base64'
+import TimeSchedule from './views/TimeSchedule'
+import NetworkTools from './views/NetworkTools'
+import FakeData from './views/FakeData'
 
 function App() {
   const [activeView, setActiveView] = useState<View>('json-diff')
@@ -50,6 +54,10 @@ function App() {
           {activeView === 'sql-tool' && <SqlTool isDark={isDark} />}
           {activeView === 'regex-tester' && <RegexTester isDark={isDark} />}
           {activeView === 'token-counter' && <TokenCounter isDark={isDark} />}
+          {activeView === 'base64' && <Base64 isDark={isDark} />}
+          {activeView === 'time-schedule' && <TimeSchedule isDark={isDark} />}
+          {activeView === 'network-tools' && <NetworkTools isDark={isDark} />}
+          {activeView === 'fake-data' && <FakeData isDark={isDark} />}
         </main>
       </div>
     </div>

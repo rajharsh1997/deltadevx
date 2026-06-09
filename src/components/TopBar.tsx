@@ -31,6 +31,22 @@ const viewMeta: Record<View, { title: string; subtitle: string }> = {
         title: 'Token Counter',
         subtitle: 'Count LLM tokens using cl100k_base encoding with model cost reference',
     },
+    'base64': {
+        title: 'Base64 Encoder/Decoder',
+        subtitle: 'Encode or decode strings and files using Base64',
+    },
+    'time-schedule': {
+        title: 'Time & Schedule',
+        subtitle: 'Convert timestamps, parse CRON expressions, and calculate durations',
+    },
+    'network-tools': {
+        title: 'Network Tools',
+        subtitle: 'Calculate CIDR subnets, build cURL requests, and lookup HTTP status codes',
+    },
+    'fake-data': {
+        title: 'Fake Data Generator',
+        subtitle: 'Generate mock data for testing: JSON, CSV, names, emails, UUIDs, and more',
+    },
 }
 
 const TopBar: React.FC<TopBarProps> = ({ activeView, isDark }) => {
