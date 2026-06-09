@@ -17,26 +17,26 @@ interface ModelInfo {
 }
 
 const MODELS: Record<ModelKey, ModelInfo> = {
-    'gpt-4o':            { label: 'GPT-4o',              provider: 'OpenAI',    inputPer1M: 2.50,  outputPer1M: 10.00, context: '128k' },
-    'claude-sonnet-4-5': { label: 'Claude Sonnet 4.5',   provider: 'Anthropic', inputPer1M: 3.00,  outputPer1M: 15.00, context: '200k' },
-    'claude-sonnet-4-6': { label: 'Claude Sonnet 4.6',   provider: 'Anthropic', inputPer1M: 3.00,  outputPer1M: 15.00, context: '200k', badge: 'Latest' },
-    'claude-opus-4':     { label: 'Claude Opus 4',       provider: 'Anthropic', inputPer1M: 15.00, outputPer1M: 75.00, context: '200k', badge: 'Power' },
-    'deepseek-v4-flash': { label: 'DeepSeek V4 Flash',   provider: 'DeepSeek',  inputPer1M: 0.15,  outputPer1M: 0.60,  context: '128k', badge: 'Budget' },
-    'gemini-2-5-pro':    { label: 'Gemini 2.5 Pro',      provider: 'Google',    inputPer1M: 1.25,  outputPer1M: 10.00, context: '1M',   badge: 'Long ctx' },
+    'gpt-4o': { label: 'GPT-4o', provider: 'OpenAI', inputPer1M: 2.50, outputPer1M: 10.00, context: '128k' },
+    'claude-sonnet-4-5': { label: 'Claude Sonnet 4.5', provider: 'Anthropic', inputPer1M: 3.00, outputPer1M: 15.00, context: '200k' },
+    'claude-sonnet-4-6': { label: 'Claude Sonnet 4.6', provider: 'Anthropic', inputPer1M: 3.00, outputPer1M: 15.00, context: '200k', badge: 'Latest' },
+    'claude-opus-4': { label: 'Claude Opus 4', provider: 'Anthropic', inputPer1M: 15.00, outputPer1M: 75.00, context: '200k', badge: 'Power' },
+    'deepseek-v4-flash': { label: 'DeepSeek V4 Flash', provider: 'DeepSeek', inputPer1M: 0.15, outputPer1M: 0.60, context: '128k', badge: 'Budget' },
+    'gemini-2-5-pro': { label: 'Gemini 2.5 Pro', provider: 'Google', inputPer1M: 1.25, outputPer1M: 10.00, context: '1M', badge: 'Long ctx' },
 }
 
 const PROVIDER_COLORS: Record<string, string> = {
-    'OpenAI':    '#10a37f',
+    'OpenAI': '#10a37f',
     'Anthropic': '#d4810a',
-    'DeepSeek':  '#4f6ef7',
-    'Google':    '#ea4335',
+    'DeepSeek': '#4f6ef7',
+    'Google': '#ea4335',
 }
 
 function formatCost(usd: number): string {
     if (usd === 0) return '—'
     if (usd < 0.000001) return '< $0.000001'
     if (usd < 0.0001) return `$${usd.toFixed(6)}`
-    if (usd < 0.01)   return `$${usd.toFixed(4)}`
+    if (usd < 0.01) return `$${usd.toFixed(4)}`
     return `$${usd.toFixed(4)}`
 }
 
@@ -73,12 +73,12 @@ const TokenCounter: React.FC<TokenCounterProps> = ({ isDark }) => {
         try { setTokens(encode(text).length) } catch { setTokens(0) }
     }, [text])
 
-    const wordCount  = text.trim() ? text.trim().split(/\s+/).length : 0
-    const charCount  = text.length
-    const lineCount  = text ? text.split('\n').length : 0
+    const wordCount = text.trim() ? text.trim().split(/\s+/).length : 0
+    const charCount = text.length
+    const lineCount = text ? text.split('\n').length : 0
 
     const handleExample = useCallback(() => setText(EXAMPLE_TEXT), [])
-    const handleClear   = useCallback(() => setText(''), [])
+    const handleClear = useCallback(() => setText(''), [])
 
     const copyBtnRef = useRef<HTMLButtonElement>(null)
     const handleCopy = useCallback(() => {
@@ -90,7 +90,7 @@ const TokenCounter: React.FC<TokenCounterProps> = ({ isDark }) => {
     }, [text])
 
     const btnBase = `px-3 py-1.5 rounded-lg text-xs font-mono transition-all duration-150 cursor-pointer border`
-    const btnSec  = isDark
+    const btnSec = isDark
         ? 'bg-[#1e1e35] hover:bg-[#252545] text-[#9595b4] border-[#2a2a45]'
         : 'bg-white hover:bg-[#f3f4f6] text-[#374151] border-[#e5e7eb]'
 
@@ -98,10 +98,10 @@ const TokenCounter: React.FC<TokenCounterProps> = ({ isDark }) => {
         <div className="flex flex-col min-h-full gap-5 p-6 min-w-[680px] text-[#e8e8f0]">
             {/* Stats row */}
             <div className="flex gap-3 flex-wrap">
-                <StatCard label="Tokens"     value={tokens}    accent isDark={isDark} sub="cl100k_base" />
+                <StatCard label="Tokens" value={tokens} accent isDark={isDark} sub="cl100k_base" />
                 <StatCard label="Characters" value={charCount} isDark={isDark} />
-                <StatCard label="Words"      value={wordCount} isDark={isDark} />
-                <StatCard label="Lines"      value={lineCount} isDark={isDark} />
+                <StatCard label="Words" value={wordCount} isDark={isDark} />
+                <StatCard label="Lines" value={lineCount} isDark={isDark} />
             </div>
 
             {/* Textarea */}
@@ -133,7 +133,7 @@ const TokenCounter: React.FC<TokenCounterProps> = ({ isDark }) => {
                         }`}
                 />
                 <p className={`text-[11px] font-mono ${isDark ? 'text-[#6b7280]' : 'text-[#9ca3af]'}`}>
-                    Uses cl100k_base encoding (GPT-4 / Claude compatible) — runs fully offline, no API calls
+                    Uses cl100k_base encoding (GPT-4 / Claude compatible)
                 </p>
             </div>
 

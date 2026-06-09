@@ -47,8 +47,8 @@ const EXAMPLE_SQL = `SELECT u.id, u.name, u.email, o.total, o.created_at FROM us
 /* ─── Formatted SQL Panel ─────────────────────────────────────────────────── */
 const SqlDisplay: React.FC<{ sql: string; isDark: boolean }> = ({ sql, isDark }) => (
     <div className={`rounded-md border overflow-auto flex-1 min-h-[200px] ${isDark ? 'bg-[#0d0d1a] border-[#2a2a45]' : 'bg-[#f9fafb] border-[#e5e7eb]'}`}>
-        <pre className={`p-4 font-mono text-[13px] leading-[1.7] whitespace-pre ${isDark ? 'text-[#c5c5d8]' : 'text-[#374151]'}`}>
-            {sql || <span className={isDark ? 'text-[#3d3d6b]' : 'text-[#d1d5db]'}>Formatted SQL will appear here…</span>}
+        <pre className={`p-4 font-mono text-[13px] leading-[1.7] whitespace-pre ${isDark ? 'text-[#c5c5d8]' : 'text-[#111827]'}`}>
+            {sql || <span className={isDark ? 'text-[#3d3d6b]' : 'text-[#6b7280]'}>Formatted SQL will appear here…</span>}
         </pre>
     </div>
 )
@@ -112,11 +112,11 @@ const FormatterPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
     const inputCls = `w-full p-3 rounded-md border font-mono text-[13px] leading-[1.6] transition-colors duration-150 resize-none
         focus:outline-none focus:ring-1 focus:ring-[#4f6ef7]
         ${isDark ? 'bg-[#12121f] border-[#2a2a45] text-[#c5c5d8] placeholder-[#3d3d6b]'
-            : 'bg-white border-[#e5e7eb] text-[#374151] placeholder-[#9ca3af]'}`
+            : 'bg-white border-[#d1d5db] text-[#111827] placeholder-[#6b7280]'}`
 
     const btnSecondary = isDark
         ? 'bg-[#1e1e35] hover:bg-[#252545] text-[#9595b4] border border-[#2a2a45]'
-        : 'bg-white hover:bg-[#f3f4f6] text-[#374151] border border-[#e5e7eb]'
+        : 'bg-white hover:bg-[#f3f4f6] text-[#111827] border border-[#d1d5db]'
 
     return (
         <div className="flex flex-col gap-4 flex-1">
@@ -128,7 +128,7 @@ const FormatterPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
                     onChange={e => setDialect(e.target.value as Dialect)}
                     className={`px-3 py-2 rounded-lg border text-[13px] font-mono transition-colors duration-150 cursor-pointer
                         focus:outline-none focus:ring-1 focus:ring-[#4f6ef7]
-                        ${isDark ? 'bg-[#1e1e35] border-[#2a2a45] text-[#9595b4]' : 'bg-white border-[#e5e7eb] text-[#374151]'}`}
+                        ${isDark ? 'bg-[#1e1e35] border-[#2a2a45] text-[#9595b4]' : 'bg-white border-[#d1d5db] text-[#111827]'}`}
                 >
                     {DIALECTS.map(d => <option key={d.value} value={d.value}>{d.label}</option>)}
                 </select>
@@ -141,7 +141,7 @@ const FormatterPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
                 </button>
                 <button id="sql-formatter-clear-btn" onClick={handleClear}
                     className={`px-4 py-2 rounded-lg text-sm font-medium font-mono transition-all duration-150 cursor-pointer
-                        ${isDark ? 'bg-[#1e1e35] hover:bg-[#252545] text-[#6b7280] border border-[#2a2a45]' : 'bg-white hover:bg-[#f3f4f6] text-[#9ca3af] border border-[#e5e7eb]'}`}>
+                        ${isDark ? 'bg-[#1e1e35] hover:bg-[#252545] text-[#6b7280] border border-[#2a2a45]' : 'bg-white hover:bg-[#f3f4f6] text-[#4b5563] border border-[#d1d5db]'}`}>
                     Clear
                 </button>
                 {output && (
@@ -163,13 +163,13 @@ const FormatterPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
 
             <div className="flex gap-4 flex-1">
                 <div className="flex flex-col flex-1 min-w-0 gap-2">
-                    <label className={`text-[11px] font-mono font-semibold tracking-widest uppercase ${isDark ? 'text-[#6b7280]' : 'text-[#4b5563]'}`}>Raw SQL</label>
+                    <label className={`text-[11px] font-mono font-semibold tracking-widest uppercase ${isDark ? 'text-[#6b7280]' : 'text-[#1f2937]'}`}>Raw SQL</label>
                     <textarea id="sql-input" value={input} onChange={e => setInput(e.target.value)}
                         placeholder="Paste your SQL query here…" spellCheck={false}
                         className={`${inputCls} flex-1 min-h-[300px]`} />
                 </div>
                 <div className="flex flex-col flex-1 min-w-0 gap-2">
-                    <label className={`text-[11px] font-mono font-semibold tracking-widest uppercase ${isDark ? 'text-[#6b7280]' : 'text-[#4b5563]'}`}>Formatted Output</label>
+                    <label className={`text-[11px] font-mono font-semibold tracking-widest uppercase ${isDark ? 'text-[#6b7280]' : 'text-[#1f2937]'}`}>Formatted Output</label>
                     <SqlDisplay sql={output} isDark={isDark} />
                 </div>
             </div>
@@ -195,6 +195,32 @@ const BuilderPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
     const [having, setHaving] = useState('')
     const [dialect, setDialect] = useState<Dialect>('postgresql')
     const copyRef = useRef<HTMLButtonElement>(null)
+
+    const handleLoadExample = useCallback(() => {
+        setDialect('postgresql')
+        setSchema('public')
+        setTable('users')
+        setColumns([
+            { id: nextId(), name: 'u.id' },
+            { id: nextId(), name: 'u.name' },
+            { id: nextId(), name: 'u.email' },
+            { id: nextId(), name: 'o.total' },
+            { id: nextId(), name: 'o.created_at' }
+        ])
+        setJoins([
+            { id: nextId(), type: 'LEFT JOIN', table: 'orders', alias: 'o', on: 'u.id = o.user_id' }
+        ])
+        setWhere([
+            { id: nextId(), field: 'u.active', op: '=', value: '1' },
+            { id: nextId(), field: 'o.total', op: '>', value: '100' }
+        ])
+        setGroupBy('')
+        setHaving('')
+        setOrderField('o.created_at')
+        setOrderDir('DESC')
+        setLimit('50')
+        setDistinct(false)
+    }, [])
 
     const addColumn = () => setColumns(c => [...c, { id: nextId(), name: '' }])
     const removeColumn = (id: number) => setColumns(c => c.filter(col => col.id !== id))
@@ -267,17 +293,17 @@ const BuilderPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
     const inputCls = `px-2.5 py-1.5 rounded-md border font-mono text-[12px] transition-colors duration-150
         focus:outline-none focus:ring-1 focus:ring-[#4f6ef7]
         ${isDark ? 'bg-[#12121f] border-[#2a2a45] text-[#c5c5d8] placeholder-[#3d3d6b]'
-            : 'bg-white border-[#e5e7eb] text-[#374151] placeholder-[#9ca3af]'}`
+            : 'bg-white border-[#d1d5db] text-[#111827] placeholder-[#6b7280]'}`
 
     const selectCls = `px-2.5 py-1.5 rounded-md border font-mono text-[12px] transition-colors duration-150 cursor-pointer
         focus:outline-none focus:ring-1 focus:ring-[#4f6ef7]
-        ${isDark ? 'bg-[#1e1e35] border-[#2a2a45] text-[#9595b4]' : 'bg-white border-[#e5e7eb] text-[#374151]'}`
+        ${isDark ? 'bg-[#1e1e35] border-[#2a2a45] text-[#9595b4]' : 'bg-white border-[#d1d5db] text-[#111827]'}`
 
-    const sectionLabel = `text-[10.5px] font-mono font-semibold tracking-widest uppercase mb-2 ${isDark ? 'text-[#6b7280]' : 'text-[#4b5563]'}`
+    const sectionLabel = `text-[10.5px] font-mono font-semibold tracking-widest uppercase mb-2 ${isDark ? 'text-[#6b7280]' : 'text-[#1f2937]'}`
     const addBtn = `px-3 py-1 rounded-md text-[11px] font-mono cursor-pointer transition-all duration-150 border
-        ${isDark ? 'bg-[#1e1e35] border-[#2a2a45] text-[#6b7280] hover:text-[#9595b4]' : 'bg-white border-[#e5e7eb] text-[#9ca3af] hover:text-[#374151]'}`
+        ${isDark ? 'bg-[#1e1e35] border-[#2a2a45] text-[#6b7280] hover:text-[#9595b4]' : 'bg-white border-[#d1d5db] text-[#4b5563] hover:text-[#111827]'}`
     const removeBtn = `shrink-0 w-6 h-6 flex items-center justify-center rounded font-bold text-[13px] transition-all cursor-pointer
-        ${isDark ? 'text-[#4b5563] hover:text-[#f87171] hover:bg-[#331a1a]' : 'text-[#d1d5db] hover:text-[#dc2626] hover:bg-[#fee2e2]'}`
+        ${isDark ? 'text-[#4b5563] hover:text-[#f87171] hover:bg-[#331a1a]' : 'text-[#9ca3af] hover:text-[#dc2626] hover:bg-[#fee2e2]'}`
 
     return (
         <div className="flex gap-6 flex-1 min-h-0">
@@ -285,7 +311,10 @@ const BuilderPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
             <div className={`flex flex-col gap-5 w-[420px] shrink-0 overflow-y-auto pr-2`}>
                 {/* Dialect */}
                 <div>
-                    <div className={sectionLabel}>Dialect</div>
+                    <div className={`${sectionLabel} flex items-center justify-between`}>
+                        <span>Dialect</span>
+                        <button onClick={handleLoadExample} className={addBtn}>Load Example</button>
+                    </div>
                     <select id="builder-dialect" value={dialect} onChange={e => setDialect(e.target.value as Dialect)} className={`${selectCls} w-full`}>
                         {DIALECTS.map(d => <option key={d.value} value={d.value}>{d.label}</option>)}
                     </select>
@@ -297,7 +326,7 @@ const BuilderPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
                     <div className="flex gap-2">
                         <input id="builder-schema" type="text" value={schema} onChange={e => setSchema(e.target.value)}
                             placeholder="schema (optional)" className={`${inputCls} w-[120px]`} />
-                        <span className={`flex items-center font-mono text-[13px] ${isDark ? 'text-[#4b5563]' : 'text-[#9ca3af]'}`}>.</span>
+                        <span className={`flex items-center font-mono text-[13px] ${isDark ? 'text-[#4b5563]' : 'text-[#6b7280]'}`}>.</span>
                         <input id="builder-table" type="text" value={table} onChange={e => setTable(e.target.value)}
                             placeholder="users" className={`${inputCls} flex-1`} />
                     </div>
@@ -336,7 +365,7 @@ const BuilderPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
                         <button id="builder-add-join" onClick={addJoin} className={addBtn}>+ Add</button>
                     </div>
                     {joins.length === 0 && (
-                        <p className={`text-[11px] font-mono ${isDark ? 'text-[#3d3d6b]' : 'text-[#d1d5db]'}`}>No JOINs — single-table query</p>
+                        <p className={`text-[11px] font-mono ${isDark ? 'text-[#3d3d6b]' : 'text-[#6b7280]'}`}>No JOINs — single-table query</p>
                     )}
                     <div className="flex flex-col gap-2">
                         {joins.map(j => (
@@ -347,12 +376,12 @@ const BuilderPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
                                 <div className="flex items-center gap-1.5 mb-1.5">
                                     <input type="text" value={j.table} onChange={e => updateJoin(j.id, { table: e.target.value })}
                                         placeholder="table" className={`${inputCls} flex-1`} />
-                                    <span className={`text-[10px] font-mono ${isDark ? 'text-[#4b5563]' : 'text-[#9ca3af]'}`}>AS</span>
+                                    <span className={`text-[10px] font-mono ${isDark ? 'text-[#4b5563]' : 'text-[#6b7280]'}`}>AS</span>
                                     <input type="text" value={j.alias} onChange={e => updateJoin(j.id, { alias: e.target.value })}
                                         placeholder="alias" className={`${inputCls} w-[70px]`} />
                                 </div>
                                 <div className="flex items-center gap-1.5">
-                                    <span className={`text-[10px] font-mono ${isDark ? 'text-[#4b5563]' : 'text-[#9ca3af]'}`}>ON</span>
+                                    <span className={`text-[10px] font-mono ${isDark ? 'text-[#4b5563]' : 'text-[#6b7280]'}`}>ON</span>
                                     <input type="text" value={j.on} onChange={e => updateJoin(j.id, { on: e.target.value })}
                                         placeholder="u.id = o.user_id" className={`${inputCls} flex-1`} />
                                     <button onClick={() => removeJoin(j.id)} className={removeBtn}>×</button>
@@ -369,7 +398,7 @@ const BuilderPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
                         <button id="builder-add-where" onClick={addWhere} className={addBtn}>+ Add</button>
                     </div>
                     {where.length === 0 && (
-                        <p className={`text-[11px] font-mono ${isDark ? 'text-[#3d3d6b]' : 'text-[#d1d5db]'}`}>No conditions — all rows returned</p>
+                        <p className={`text-[11px] font-mono ${isDark ? 'text-[#3d3d6b]' : 'text-[#6b7280]'}`}>No conditions — all rows returned</p>
                     )}
                     <div className="flex flex-col gap-2">
                         {where.map(r => (
@@ -427,13 +456,13 @@ const BuilderPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
             {/* Preview */}
             <div className="flex flex-col flex-1 min-w-0 gap-2">
                 <div className="flex items-center justify-between">
-                    <label className={`text-[11px] font-mono font-semibold tracking-widest uppercase ${isDark ? 'text-[#6b7280]' : 'text-[#4b5563]'}`}>
+                    <label className={`text-[11px] font-mono font-semibold tracking-widest uppercase ${isDark ? 'text-[#6b7280]' : 'text-[#1f2937]'}`}>
                         SQL Preview
                     </label>
                     {formattedPreview && (
                         <button ref={copyRef} id="builder-copy-btn" onClick={handleCopy}
                             className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all duration-150 cursor-pointer border
-                                ${isDark ? 'bg-[#1e1e35] border-[#2a2a45] text-[#9595b4] hover:bg-[#252545]' : 'bg-white border-[#e5e7eb] text-[#374151] hover:bg-[#f3f4f6]'}`}>
+                                ${isDark ? 'bg-[#1e1e35] border-[#2a2a45] text-[#9595b4] hover:bg-[#252545]' : 'bg-white border-[#d1d5db] text-[#111827] hover:bg-[#f3f4f6]'}`}>
                             Copy SQL
                         </button>
                     )}
@@ -442,7 +471,7 @@ const BuilderPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
                     <pre className={`p-4 font-mono text-[13px] leading-[1.7] whitespace-pre`}>
                         {formattedPreview
                             ? applyKeywordColor(formattedPreview, isDark)
-                            : <span className={isDark ? 'text-[#3d3d6b]' : 'text-[#d1d5db]'}>Fill in a table name to start building your query…</span>}
+                            : <span className={isDark ? 'text-[#3d3d6b]' : 'text-[#6b7280]'}>Fill in a table name to start building your query…</span>}
                     </pre>
                 </div>
             </div>
@@ -474,11 +503,21 @@ const NLPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
         setTimeout(() => setCopied(false), 1500)
     }, [result])
 
-    // Example NL queries — keep max 3
+    const handleFormatSQL = useCallback(() => {
+        if (!result?.sql) return
+        try {
+            const formatted = sqlFormat(result.sql, { language: 'postgresql', tabWidth: 2, keywordCase: 'upper' })
+            setResult({ ...result, sql: formatted })
+        } catch {
+            // ignore formatting errors
+        }
+    }, [result])
+
+    // Example NL queries — keep max 3, all verified working
     const examples = [
         'Show all users',
-        'Get top 10 orders by total desc',
-        'Count users by status where active is true',
+        'Find users where email contains gmail',
+        'Show name and email from users where active is true',
     ]
 
     const loadExample = (ex: string) => {
@@ -489,16 +528,16 @@ const NLPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
     const inputCls = `w-full p-3 rounded-md border font-mono text-[13px] leading-[1.6] transition-colors duration-150 resize-none
         focus:outline-none focus:ring-1 focus:ring-[#4f6ef7]
         ${isDark ? 'bg-[#12121f] border-[#2a2a45] text-[#c5c5d8] placeholder-[#3d3d6b]'
-            : 'bg-white border-[#e5e7eb] text-[#374151] placeholder-[#9ca3af]'}`
+            : 'bg-white border-[#d1d5db] text-[#111827] placeholder-[#6b7280]'}`
 
     const btnSecondary = isDark
         ? 'bg-[#1e1e35] hover:bg-[#252545] text-[#9595b4] border border-[#2a2a45]'
-        : 'bg-white hover:bg-[#f3f4f6] text-[#374151] border border-[#e5e7eb]'
+        : 'bg-white hover:bg-[#f3f4f6] text-[#111827] border border-[#d1d5db]'
 
     const confidenceColor = (c: string) => {
-        if (c === 'high') return 'text-green-400'
-        if (c === 'medium') return 'text-yellow-400'
-        return 'text-red-400'
+        if (c === 'high') return isDark ? 'text-green-400' : 'text-green-600'
+        if (c === 'medium') return isDark ? 'text-yellow-400' : 'text-yellow-600'
+        return isDark ? 'text-red-400' : 'text-red-600'
     }
 
     return (
@@ -509,7 +548,7 @@ const NLPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
                     <button key={i} onClick={() => loadExample(ex)}
                         className={`px-2.5 py-1 rounded-md text-[11px] font-mono transition-all duration-150 cursor-pointer border
                             ${isDark ? 'bg-[#12121f] border-[#2a2a45] text-[#6b7280] hover:text-[#9595b4] hover:border-[#4f6ef7]'
-                                : 'bg-white border-[#e5e7eb] text-[#9ca3af] hover:text-[#374151] hover:border-[#4f6ef7]'}`}>
+                                : 'bg-[#f9fafb] border-[#d1d5db] text-[#1f2937] hover:text-[#111827] hover:border-[#4f6ef7]'}`}>
                         {ex}
                     </button>
                 ))}
@@ -518,9 +557,11 @@ const NLPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
             {/* Input */}
             <div className="flex gap-4 flex-1">
                 <div className="flex flex-col flex-1 min-w-0 gap-2">
-                    <label className={`text-[11px] font-mono font-semibold tracking-widest uppercase ${isDark ? 'text-[#6b7280]' : 'text-[#4b5563]'}`}>
-                        Describe your query in plain English
-                    </label>
+                    <div className="flex items-center min-h-[32px]">
+                        <label className={`text-[11px] font-mono font-semibold tracking-widest uppercase ${isDark ? 'text-[#6b7280]' : 'text-[#1f2937]'}`}>
+                            Describe your query in plain English
+                        </label>
+                    </div>
                     <textarea id="nl-input" value={input} onChange={e => setInput(e.target.value)}
                         placeholder='e.g. "Show me all users who signed up last month ordered by date"'
                         spellCheck={false}
@@ -538,21 +579,30 @@ const NLPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
 
                 {/* Result */}
                 <div className="flex flex-col flex-1 min-w-0 gap-2">
-                    <div className="flex items-center justify-between">
-                        <label className={`text-[11px] font-mono font-semibold tracking-widest uppercase ${isDark ? 'text-[#6b7280]' : 'text-[#4b5563]'}`}>
+                    <div className="flex items-center justify-between min-h-[32px]">
+                        <label className={`text-[11px] font-mono font-semibold tracking-widest uppercase ${isDark ? 'text-[#6b7280]' : 'text-[#1f2937]'}`}>
                             Generated SQL
                         </label>
+                        <div className="flex items-center gap-2">
                         {result?.sql && (
                             <button id="nl-copy-btn" onClick={handleCopy}
                                 className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all duration-150 cursor-pointer border
-                                    ${isDark ? 'bg-[#1e1e35] border-[#2a2a45] text-[#9595b4] hover:bg-[#252545]' : 'bg-white border-[#e5e7eb] text-[#374151] hover:bg-[#f3f4f6]'}`}>
+                                    ${isDark ? 'bg-[#1e1e35] border-[#2a2a45] text-[#9595b4] hover:bg-[#252545]' : 'bg-white border-[#d1d5db] text-[#111827] hover:bg-[#f3f4f6]'}`}>
                                 {copied ? 'Copied!' : 'Copy SQL'}
                             </button>
                         )}
+                        {result?.sql && (
+                            <button id="nl-format-btn" onClick={handleFormatSQL}
+                                className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all duration-150 cursor-pointer border
+                                    ${isDark ? 'bg-[#1e1e35] border-[#2a2a45] text-[#9595b4] hover:bg-[#252545]' : 'bg-white border-[#d1d5db] text-[#111827] hover:bg-[#f3f4f6]'}`}>
+                                Format SQL
+                            </button>
+                        )}
+                        </div>
                     </div>
                     {result ? (
-                        <div className="flex flex-col gap-3 flex-1">
-                            <div className={`flex-1 rounded-md border overflow-auto ${isDark ? 'bg-[#0d0d1a] border-[#2a2a45]' : 'bg-[#f9fafb] border-[#e5e7eb]'}`}>
+                        <div className="flex flex-col gap-3 flex-1 min-h-[250px]">
+                            <div className={`flex-1 rounded-md border overflow-auto min-h-0 ${isDark ? 'bg-[#0d0d1a] border-[#2a2a45]' : 'bg-[#f9fafb] border-[#e5e7eb]'}`}>
                                 <pre className={`p-4 font-mono text-[13px] leading-[1.7] whitespace-pre`}>
                                     {applyKeywordColor(result.sql, isDark)}
                                 </pre>
@@ -564,14 +614,14 @@ const NLPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
                                 </span>
                             </div>
                             {result.notes.length > 0 && (
-                                <div className={`p-3 rounded-md border text-[12px] font-mono leading-[1.6] ${isDark ? 'bg-[#12121f] border-[#2a2a45] text-[#9595b4]' : 'bg-[#f9fafb] border-[#e5e7eb] text-[#6b7280]'}`}>
+                                <div className={`p-3 rounded-md border text-[12px] font-mono leading-[1.6] ${isDark ? 'bg-[#12121f] border-[#2a2a45] text-[#9595b4]' : 'bg-[#f9fafb] border-[#d1d5db] text-[#1f2937]'}`}>
                                     {result.notes.map((n, i) => <div key={i}>• {n}</div>)}
                                 </div>
                             )}
                         </div>
                     ) : (
-                        <div className={`flex-1 rounded-md border overflow-auto flex items-center justify-center ${isDark ? 'bg-[#0d0d1a] border-[#2a2a45]' : 'bg-[#f9fafb] border-[#e5e7eb]'}`}>
-                            <p className={`text-[13px] font-mono ${isDark ? 'text-[#3d3d6b]' : 'text-[#d1d5db]'}`}>
+                        <div className={`flex-1 rounded-md border overflow-auto flex items-center justify-center min-h-[250px] ${isDark ? 'bg-[#0d0d1a] border-[#2a2a45]' : 'bg-[#f9fafb] border-[#e5e7eb]'}`}>
+                            <p className={`text-[13px] font-mono ${isDark ? 'text-[#3d3d6b]' : 'text-[#6b7280]'}`}>
                                 Type a description above and click "Generate SQL"
                             </p>
                         </div>
@@ -593,14 +643,14 @@ const SqlTool: React.FC<SqlToolProps> = ({ isDark }) => {
             className={`px-4 py-2 rounded-lg text-sm font-mono font-medium transition-all duration-150 cursor-pointer
                 ${mode === m
                     ? 'bg-[#4f6ef7] text-white shadow shadow-[#4f6ef730]'
-                    : isDark ? 'text-[#6b7280] hover:text-[#9595b4]' : 'text-[#9ca3af] hover:text-[#374151]'}`}
+                    : isDark ? 'text-[#6b7280] hover:text-[#9595b4]' : 'text-[#4b5563] hover:text-[#111827]'}`}
         >
             {label}
         </button>
     )
 
     return (
-        <div className="flex flex-col min-h-full gap-4 p-6 min-w-[900px] text-[#d1d5db]">
+        <div className={`flex flex-col min-h-full gap-4 p-6 min-w-[900px] ${isDark ? 'text-[#d1d5db]' : 'text-[#1f2937]'}`}>
             {/* Mode tabs */}
             <div className={`flex items-center gap-1 p-1 rounded-xl w-fit ${isDark ? 'bg-[#0e0e18]' : 'bg-[#f3f4f6]'}`}>
                 {tabBtn('formatter', 'SQL Formatter')}

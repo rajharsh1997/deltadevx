@@ -107,6 +107,12 @@ function parseNLDate(raw: string): string {
     const mo = MONTHS[dmy[2].toLowerCase()]
     if (mo) return `'${dmy[3]}-${mo}-${dmy[1].padStart(2,'0')}'`
   }
+  // "Month Year" e.g. May 2026
+  const my = s.match(/^([a-zA-Z]+)\s+(\d{4})$/i)
+  if (my) {
+    const mo = MONTHS[my[1].toLowerCase()]
+    if (mo) return `'${my[2]}-${mo}-01'`
+  }
   // Fallback: wrap as-is
   return `'${s}'`
 }
@@ -148,19 +154,19 @@ function parseWhere(w: string): string {
       (_, d) => `< ${parseNLDate(d)}`)
     .replace(/\bis\s+on\s+([\w][\w\s,.\/\-]+?)(?=\s+(?:AND|OR)\b|$)/gi,
       (_, d) => `= ${parseNLDate(d)}`)
-    // Natural-language numeric comparison operators
     .replace(/\bis\s+(?:greater\s+than\s+or\s+equal\s+to|at\s+least)\s+[$£€¥]?(\d+(?:\.\d+)?)/gi, '>= $1')
     .replace(/\bis\s+(?:less\s+than\s+or\s+equal\s+to|at\s+most|no\s+more\s+than)\s+[$£€¥]?(\d+(?:\.\d+)?)/gi, '<= $1')
-    .replace(/\bis\s+greater\s+than\s+[$£€¥]?(\d+(?:\.\d+)?)/gi, '> $1')
+    .replace(/\bis\s+(?:greater\s+than|more\s+than)\s+[$£€¥]?(\d+(?:\.\d+)?)/gi, '> $1')
     .replace(/\bis\s+less\s+than\s+[$£€¥]?(\d+(?:\.\d+)?)/gi, '< $1')
     .replace(/\bis\s+(?:not\s+equal\s+to|not)\s+[$£€¥]?(\d+(?:\.\d+)?)/gi, '!= $1')
     .replace(/\bis\s+(?:equal\s+to|exactly)\s+[$£€¥]?(\d+(?:\.\d+)?)/gi, '= $1')
     // Bare comparison phrases without leading 'is'
     .replace(/\bgreater\s+than\s+or\s+equal\s+to\s+[$£€¥]?(\d+(?:\.\d+)?)/gi, '>= $1')
     .replace(/\bless\s+than\s+or\s+equal\s+to\s+[$£€¥]?(\d+(?:\.\d+)?)/gi, '<= $1')
-    .replace(/\bgreater\s+than\s+[$£€¥]?(\d+(?:\.\d+)?)/gi, '> $1')
+    .replace(/\b(?:greater\s+than|more\s+than)\s+[$£€¥]?(\d+(?:\.\d+)?)/gi, '> $1')
     .replace(/\bless\s+than\s+[$£€¥]?(\d+(?:\.\d+)?)/gi, '< $1')
     .replace(/\bnot\s+equal\s+to\s+[$£€¥]?(\d+(?:\.\d+)?)/gi, '!= $1')
+    .replace(/\b([a-zA-Z_]\w*)\s+in\s+([a-zA-Z]+\s+\d{4})\b/i, (_, col, d) => `${col} = ${parseNLDate(d)}`)
     // "is 'value'" or `is "value"` → = 'value'
     .replace(/\bis\s+('([^']*)'|"([^"]*)")/gi, (_, quoted) => `= ${quoted}`)
     // "is not 'value'" → != 'value'
@@ -202,11 +208,13 @@ export function nlToSQL(input: string): NLResult {
 
   // ── Table ────────────────────────────────────────────────────────────────
   let table = extractTable(s)
+  let afterTable = ''
   if (!table) {
     // Fallback: verb at start, then (optional fillers), then identifier
-    const m = s.match(/(?:get|show|list|find|fetch|select)\s+(?:(?:all|the|a|an|me|my|distinct)\s+)*([a-zA-Z_]\w*)/i)
+    const m = s.match(/(?:get|show|list|find|fetch|select|count)\s+(?:(?:how\s+many|all|the|a|an|me|my|distinct)\s+)*([a-zA-Z_]\w*)(.*)/i)
     if (m && !FILLERS.has(m[1].toLowerCase()) && !['distinct'].includes(m[1].toLowerCase())) {
       table = m[1]
+      afterTable = m[2].trim()
       notes.push(`Inferred table: "${table}"`)
     }
   }
@@ -224,7 +232,7 @@ export function nlToSQL(input: string): NLResult {
   // "count/find the (total) number/amount/quantity of X" → COUNT(x)
   // Must run FIRST so it can override the more generic matchers below
   // Captures the noun phrase after "number/count/amount/quantity of", stopping before "from"/"where"
-  const AGG_NUMBER_OF = /\b(?:count|find|get|show)\s+(?:the\s+)?(?:total\s+)?(?:number|count|amount|quantity)\s+of\s+(\w[\w ]*?)(?=\s+from\b|\s+where\b|$)/i
+  const AGG_NUMBER_OF = /\b(?:count|find|get|show)\s+(?:how\s+many|(?:the\s+)?(?:total\s+)?(?:number|count|amount|quantity)\s+of)\s+(\w[\w ]*?)(?=\s+(?:from|where|that|who|which|were|was|are|is)\b|$)/i
   const numOfM = s.match(AGG_NUMBER_OF)
   if (numOfM) {
     aggFunc = 'COUNT'
@@ -234,6 +242,8 @@ export function nlToSQL(input: string): NLResult {
     if (last.endsWith('s') && !last.endsWith('ss') && last.length > 2) words[words.length - 1] = last.slice(0, -1)
     aggCol = words.join('_')
   }
+  
+  if (aggCol === table) aggCol = '*'
 
   // "each X and the avg/sum/count/min/max (of) Y" → GROUP BY X, AGG(Y)
   // Must run BEFORE AGG_STANDALONE so "average" isn't claimed as AVG(*) first
@@ -288,7 +298,16 @@ export function nlToSQL(input: string): NLResult {
   const distinct = /\bdistinct\b|\bunique\b/i.test(lower)
 
   // ── WHERE ────────────────────────────────────────────────────────────────
-  const whereRaw = (s.match(/\bwhere\s+(.+?)(?:\s+(?:order\s+by|group\s+by|having|limit)|$)/i) || [])[1] || ''
+  let whereRaw = (s.match(/\b(?:where|that|who|which)\s+(.+?)(?:\s+(?:order\s+by|group\s+by|having|limit)|$)/i) || [])[1] || ''
+  
+  if (!whereRaw && afterTable) {
+    let trailing = afterTable.split(/\b(?:order\s+by|group\s+by|having|limit)\b/i)[0].trim()
+    if (trailing) {
+        whereRaw = trailing
+    }
+  }
+  whereRaw = whereRaw.replace(/^(?:were|was|are|is)\s+/i, '')
+  
   const whereClause = whereRaw ? parseWhere(whereRaw) : ''
 
   // ── HAVING ───────────────────────────────────────────────────────────────
