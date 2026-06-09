@@ -15,7 +15,7 @@ const HighlightedText: React.FC<{ text: string; pattern: string; flags: string; 
     if (!pattern || !text) {
         return (
             <pre className={`font-mono text-[13px] leading-[1.6] whitespace-pre-wrap break-words ${isDark ? 'text-[#c5c5d8]' : 'text-[#111827]'}`}>
-                {text || <span className={isDark ? 'text-[#3d3d6b]' : 'text-[#6b7280]'}>Your test string will appear here with matches highlighted…</span>}
+                {text || <span className={isDark ? 'text-[#6b7280]' : 'text-[#6b7280]'}>Your test string will appear here with matches highlighted…</span>}
             </pre>
         )
     }
@@ -152,7 +152,7 @@ const RegexTester: React.FC<RegexTesterProps> = ({ isDark }) => {
 
     const inputCls = `w-full px-3 py-2.5 rounded-md border font-mono text-[13px] transition-colors duration-150
         focus:outline-none focus:ring-1 focus:ring-[#4f6ef7]
-        ${isDark ? 'bg-[#12121f] border-[#2a2a45] text-[#c5c5d8] placeholder-[#3d3d6b]'
+        ${isDark ? 'bg-[#12121f] border-[#2a2a45] text-[#c5c5d8] placeholder-[#6b7280]'
             : 'bg-white border-[#d1d5db] text-[#111827] placeholder-[#6b7280]'}`
 
     return (
@@ -174,7 +174,7 @@ const RegexTester: React.FC<RegexTesterProps> = ({ isDark }) => {
                         placeholder="Enter pattern…"
                         spellCheck={false}
                         className={`flex-1 py-2.5 font-mono text-[13px] bg-transparent focus:outline-none
-                            ${isDark ? 'text-[#c5c5d8] placeholder-[#3d3d6b]' : 'text-[#111827] placeholder-[#6b7280]'}`}
+                            ${isDark ? 'text-[#c5c5d8] placeholder-[#6b7280]' : 'text-[#111827] placeholder-[#6b7280]'}`}
                     />
                     <span className={`px-1 font-mono text-lg select-none ${isDark ? 'text-[#4f6ef7]' : 'text-[#4f6ef7]'}`}>/</span>
                     <span className={`pr-3 font-mono text-[13px] min-w-[28px] ${isDark ? 'text-[#a5b4fc]' : 'text-[#4f6ef7]'}`}>{flagStr}</span>

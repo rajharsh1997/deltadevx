@@ -29,7 +29,7 @@ const viewMeta: Record<View, { title: string; subtitle: string }> = {
     },
     'token-counter': {
         title: 'Token Counter',
-        subtitle: 'Count LLM tokens using cl100k_base encoding with model cost reference — fully offline',
+        subtitle: 'Count LLM tokens using cl100k_base encoding with model cost reference',
     },
 }
 

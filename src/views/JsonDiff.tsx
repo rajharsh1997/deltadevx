@@ -170,7 +170,7 @@ const DiffPanel: React.FC<DiffPanelProps> = ({ lines, isDark, searchTerm = '' })
                             className={`
                 shrink-0 w-10 flex items-center justify-end pr-3 text-[11px] select-none
                 border-r
-                ${isDark ? 'text-[#3d3d6b] border-[#2a2a45]' : 'text-[#d1d5db] border-[#e5e7eb]'}
+                ${isDark ? 'text-[#6b7280] border-[#2a2a45]' : 'text-[#d1d5db] border-[#e5e7eb]'}
                 ${line.type === 'added'
                                     ? isDark ? 'bg-[#153020] border-[#1d4731]' : 'bg-[#bbf7d0] border-[#6ee7b7]'
                                     : line.type === 'removed'

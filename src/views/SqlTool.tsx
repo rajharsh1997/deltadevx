@@ -48,7 +48,7 @@ const EXAMPLE_SQL = `SELECT u.id, u.name, u.email, o.total, o.created_at FROM us
 const SqlDisplay: React.FC<{ sql: string; isDark: boolean }> = ({ sql, isDark }) => (
     <div className={`rounded-md border overflow-auto flex-1 min-h-[200px] ${isDark ? 'bg-[#0d0d1a] border-[#2a2a45]' : 'bg-[#f9fafb] border-[#e5e7eb]'}`}>
         <pre className={`p-4 font-mono text-[13px] leading-[1.7] whitespace-pre ${isDark ? 'text-[#c5c5d8]' : 'text-[#111827]'}`}>
-            {sql || <span className={isDark ? 'text-[#3d3d6b]' : 'text-[#6b7280]'}>Formatted SQL will appear here…</span>}
+            {sql || <span className={isDark ? 'text-[#6b7280]' : 'text-[#6b7280]'}>Formatted SQL will appear here…</span>}
         </pre>
     </div>
 )
@@ -111,7 +111,7 @@ const FormatterPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
 
     const inputCls = `w-full p-3 rounded-md border font-mono text-[13px] leading-[1.6] transition-colors duration-150 resize-none
         focus:outline-none focus:ring-1 focus:ring-[#4f6ef7]
-        ${isDark ? 'bg-[#12121f] border-[#2a2a45] text-[#c5c5d8] placeholder-[#3d3d6b]'
+        ${isDark ? 'bg-[#12121f] border-[#2a2a45] text-[#c5c5d8] placeholder-[#6b7280]'
             : 'bg-white border-[#d1d5db] text-[#111827] placeholder-[#6b7280]'}`
 
     const btnSecondary = isDark
@@ -292,7 +292,7 @@ const BuilderPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
 
     const inputCls = `px-2.5 py-1.5 rounded-md border font-mono text-[12px] transition-colors duration-150
         focus:outline-none focus:ring-1 focus:ring-[#4f6ef7]
-        ${isDark ? 'bg-[#12121f] border-[#2a2a45] text-[#c5c5d8] placeholder-[#3d3d6b]'
+        ${isDark ? 'bg-[#12121f] border-[#2a2a45] text-[#c5c5d8] placeholder-[#6b7280]'
             : 'bg-white border-[#d1d5db] text-[#111827] placeholder-[#6b7280]'}`
 
     const selectCls = `px-2.5 py-1.5 rounded-md border font-mono text-[12px] transition-colors duration-150 cursor-pointer
@@ -365,7 +365,7 @@ const BuilderPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
                         <button id="builder-add-join" onClick={addJoin} className={addBtn}>+ Add</button>
                     </div>
                     {joins.length === 0 && (
-                        <p className={`text-[11px] font-mono ${isDark ? 'text-[#3d3d6b]' : 'text-[#6b7280]'}`}>No JOINs — single-table query</p>
+                        <p className={`text-[11px] font-mono ${isDark ? 'text-[#6b7280]' : 'text-[#6b7280]'}`}>No JOINs — single-table query</p>
                     )}
                     <div className="flex flex-col gap-2">
                         {joins.map(j => (
@@ -398,7 +398,7 @@ const BuilderPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
                         <button id="builder-add-where" onClick={addWhere} className={addBtn}>+ Add</button>
                     </div>
                     {where.length === 0 && (
-                        <p className={`text-[11px] font-mono ${isDark ? 'text-[#3d3d6b]' : 'text-[#6b7280]'}`}>No conditions — all rows returned</p>
+                        <p className={`text-[11px] font-mono ${isDark ? 'text-[#6b7280]' : 'text-[#6b7280]'}`}>No conditions — all rows returned</p>
                     )}
                     <div className="flex flex-col gap-2">
                         {where.map(r => (
@@ -471,7 +471,7 @@ const BuilderPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
                     <pre className={`p-4 font-mono text-[13px] leading-[1.7] whitespace-pre`}>
                         {formattedPreview
                             ? applyKeywordColor(formattedPreview, isDark)
-                            : <span className={isDark ? 'text-[#3d3d6b]' : 'text-[#6b7280]'}>Fill in a table name to start building your query…</span>}
+                            : <span className={isDark ? 'text-[#6b7280]' : 'text-[#6b7280]'}>Fill in a table name to start building your query…</span>}
                     </pre>
                 </div>
             </div>
@@ -527,7 +527,7 @@ const NLPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
 
     const inputCls = `w-full p-3 rounded-md border font-mono text-[13px] leading-[1.6] transition-colors duration-150 resize-none
         focus:outline-none focus:ring-1 focus:ring-[#4f6ef7]
-        ${isDark ? 'bg-[#12121f] border-[#2a2a45] text-[#c5c5d8] placeholder-[#3d3d6b]'
+        ${isDark ? 'bg-[#12121f] border-[#2a2a45] text-[#c5c5d8] placeholder-[#6b7280]'
             : 'bg-white border-[#d1d5db] text-[#111827] placeholder-[#6b7280]'}`
 
     const btnSecondary = isDark
@@ -621,7 +621,7 @@ const NLPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
                         </div>
                     ) : (
                         <div className={`flex-1 rounded-md border overflow-auto flex items-center justify-center min-h-[250px] ${isDark ? 'bg-[#0d0d1a] border-[#2a2a45]' : 'bg-[#f9fafb] border-[#e5e7eb]'}`}>
-                            <p className={`text-[13px] font-mono ${isDark ? 'text-[#3d3d6b]' : 'text-[#6b7280]'}`}>
+                            <p className={`text-[13px] font-mono ${isDark ? 'text-[#6b7280]' : 'text-[#6b7280]'}`}>
                                 Type a description above and click "Generate SQL"
                             </p>
                         </div>
@@ -636,26 +636,42 @@ const NLPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
 const SqlTool: React.FC<SqlToolProps> = ({ isDark }) => {
     const [mode, setMode] = useState<Mode>('formatter')
 
-    const tabBtn = (m: Mode, label: string) => (
-        <button
-            id={`sql-tab-${m}`}
-            onClick={() => setMode(m)}
-            className={`px-4 py-2 rounded-lg text-sm font-mono font-medium transition-all duration-150 cursor-pointer
-                ${mode === m
-                    ? 'bg-[#4f6ef7] text-white shadow shadow-[#4f6ef730]'
-                    : isDark ? 'text-[#6b7280] hover:text-[#9595b4]' : 'text-[#4b5563] hover:text-[#111827]'}`}
-        >
-            {label}
-        </button>
-    )
+    const tabs: { id: Mode; label: string }[] = [
+        { id: 'formatter', label: 'SQL Formatter' },
+        { id: 'builder', label: 'Visual Builder' },
+        { id: 'nl', label: 'Natural Language' },
+    ]
+    const activeIndex = tabs.findIndex(t => t.id === mode)
 
     return (
         <div className={`flex flex-col min-h-full gap-4 p-6 min-w-[900px] ${isDark ? 'text-[#d1d5db]' : 'text-[#1f2937]'}`}>
-            {/* Mode tabs */}
-            <div className={`flex items-center gap-1 p-1 rounded-xl w-fit ${isDark ? 'bg-[#0e0e18]' : 'bg-[#f3f4f6]'}`}>
-                {tabBtn('formatter', 'SQL Formatter')}
-                {tabBtn('builder', 'Visual Builder')}
-                {tabBtn('nl', 'Natural Language')}
+            {/* Mode tabs - Apple Glass Segmented Control */}
+            <div className={`relative flex items-center p-1 rounded-xl w-fit
+                ${isDark ? 'bg-[#0e0e18]/80 backdrop-blur-xl border border-white/5 shadow-inner' 
+                         : 'bg-[#e5e7eb]/70 backdrop-blur-xl border border-black/[0.04] shadow-inner'}`}>
+                
+                {/* Sliding Background */}
+                <div 
+                    className={`absolute top-1 bottom-1 w-[160px] rounded-lg transition-transform duration-300 ease-out
+                        ${isDark ? 'bg-[#2a2a45] border border-white/10 shadow-sm' : 'bg-white border border-black/[0.04] shadow-[0_2px_8px_rgba(0,0,0,0.08)]'}`}
+                    style={{ transform: `translateX(${activeIndex * 100}%)` }}
+                />
+
+                {/* Buttons */}
+                {tabs.map((t) => (
+                    <button
+                        key={t.id}
+                        id={`sql-tab-${t.id}`}
+                        onClick={() => setMode(t.id)}
+                        className={`relative z-10 w-[160px] py-2 text-[13px] font-semibold font-sans tracking-wide transition-colors duration-300 cursor-pointer text-center
+                            ${mode === t.id
+                                ? isDark ? 'text-white' : 'text-gray-900'
+                                : isDark ? 'text-[#6b7280] hover:text-[#9595b4]' : 'text-[#4b5563] hover:text-[#111827]'
+                            }`}
+                    >
+                        {t.label}
+                    </button>
+                ))}
             </div>
 
             {mode === 'formatter' && <FormatterPanel isDark={isDark} />}

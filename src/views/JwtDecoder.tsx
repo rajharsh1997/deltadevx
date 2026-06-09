@@ -109,7 +109,7 @@ const JsonDisplay: React.FC<JsonDisplayProps> = ({
                             {/* Line number */}
                             <span
                                 className={`shrink-0 w-8 text-right mr-4 select-none text-[11px] mt-0.5
-                  ${isDark ? 'text-[#3d3d6b]' : 'text-[#d1d5db]'}`}
+                  ${isDark ? 'text-[#6b7280]' : 'text-[#d1d5db]'}`}
                             >
                                 {lineIdx + 1}
                             </span>
@@ -139,7 +139,7 @@ const JsonDisplay: React.FC<JsonDisplayProps> = ({
                                     >
                                         <span>🕐</span>
                                         <span>{formatDate(date)}</span>
-                                        <span className={isDark ? 'text-[#3d3d6b]' : 'text-[#d1d5db]'}>·</span>
+                                        <span className={isDark ? 'text-[#6b7280]' : 'text-[#d1d5db]'}>·</span>
                                         <span className={isThisExpired ? 'text-red-400' : ''}>
                                             {timeFromNow(date)}
                                         </span>
@@ -261,7 +261,7 @@ const JwtDecoder: React.FC<JwtDecoderProps> = ({ isDark }) => {
             w-full resize-none rounded-lg border p-3
             font-mono text-[12.5px] leading-relaxed
             transition-colors duration-150
-            ${isDark ? 'placeholder-[#3d3d6b]' : 'placeholder-[#9ca3af]'}
+            ${isDark ? 'placeholder-[#6b7280]' : 'placeholder-[#9ca3af]'}
             focus:outline-none focus:ring-1 focus:ring-[#4f6ef7]
             ${isDark
                             ? 'bg-[#12121f] border-[#2a2a45] text-[#c5c5d8]'
@@ -453,7 +453,7 @@ const JwtDecoder: React.FC<JwtDecoderProps> = ({ isDark }) => {
                 >
                     <div className="text-center font-mono text-sm space-y-2">
                         <div className="text-4xl">🔐</div>
-                        <div className={isDark ? 'text-[#3d3d6b]' : 'text-[#d1d5db]'}>
+                        <div className={isDark ? 'text-[#6b7280]' : 'text-[#d1d5db]'}>
                             Paste a JWT token above and click <strong>Decode</strong>
                         </div>
                         <div className={`text-xs ${isDark ? 'text-[#2a2a45]' : 'text-[#e5e7eb]'}`}>

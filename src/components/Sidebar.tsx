@@ -99,7 +99,7 @@ const navItems: { id: View; label: string; Icon: React.FC }[] = [
     { id: 'text-diff', label: 'Text Diff', Icon: TextDiffIcon },
     { id: 'sql-tool', label: 'SQL Tool', Icon: SqlIcon },
     { id: 'regex-tester', label: 'RegEx', Icon: RegexIcon },
-    { id: 'token-counter', label: 'Tokenizer', Icon: TokenIcon },
+    { id: 'token-counter', label: 'Tokens', Icon: TokenIcon },
 ]
 
 const Sidebar: React.FC<SidebarProps> = ({ activeView, onViewChange, isDark, onToggleTheme }) => {
@@ -125,9 +125,9 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, onViewChange, isDark, onT
             >
                 <div className="flex items-center gap-2.5">
                     {/* Logo mark */}
-                    <img 
-                        src={logoUrl} 
-                        alt="DeltaDevX Logo" 
+                    <img
+                        src={logoUrl}
+                        alt="DeltaDevX Logo"
                         className="w-7 h-7 shrink-0 object-contain rounded-full shadow-sm"
                     />
                     <span

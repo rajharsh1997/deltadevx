@@ -70,7 +70,7 @@ const DiffPanel: React.FC<{ lines: DiffLine[]; isDark: boolean; label: string }>
                 >
                     {/* Gutter */}
                     <div className={`shrink-0 w-10 flex items-center justify-end pr-3 text-[11px] select-none border-r
-                        ${isDark ? 'text-[#3d3d6b] border-[#2a2a45]' : 'text-[#d1d5db] border-[#e5e7eb]'}
+                        ${isDark ? 'text-[#6b7280] border-[#2a2a45]' : 'text-[#d1d5db] border-[#e5e7eb]'}
                         ${line.type === 'added' ? isDark ? 'bg-[#153020] border-[#1d4731]' : 'bg-[#bbf7d0] border-[#6ee7b7]'
                             : line.type === 'removed' ? isDark ? 'bg-[#2a1010] border-[#5b1c1c]' : 'bg-[#fecaca] border-[#fca5a5]'
                             : line.type === 'empty' ? isDark ? 'bg-[#0a0a14]' : 'bg-[#eeeff2]'
@@ -117,7 +117,7 @@ const TextEditor: React.FC<{ label: string; value: string; onChange: (v: string)
             className={`flex-1 w-full min-h-[220px] resize-none p-3 rounded-md border font-mono text-[13px] leading-[1.6] transition-colors duration-150
                 focus:outline-none focus:ring-1 focus:ring-[#4f6ef7]
                 ${isDark
-                    ? 'bg-[#12121f] border-[#2a2a45] text-[#c5c5d8] placeholder-[#3d3d6b]'
+                    ? 'bg-[#12121f] border-[#2a2a45] text-[#c5c5d8] placeholder-[#6b7280]'
                     : 'bg-[#f9fafb] border-[#e5e7eb] text-[#374151] placeholder-[#9ca3af]'
                 }`}
         />
