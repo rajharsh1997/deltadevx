@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react'
 import { decodeJWT, formatDate, timeFromNow, type DecodedJWT } from '../utils/jwtDecode'
+import { sectionLabel } from '../utils/styles'
 
 /* ─────────────────────────── JSON Pretty Display ────────────────────────── */
 interface JsonDisplayProps {
@@ -245,8 +246,7 @@ const JwtDecoder: React.FC<JwtDecoderProps> = ({ isDark }) => {
             {/* Token input */}
             <div className="flex flex-col gap-2 shrink-0">
                 <label
-                    className={`text-[11px] font-mono font-semibold tracking-widest uppercase
-            ${isDark ? 'text-[#6b7280]' : 'text-[#4b5563]'}`}
+                    className={sectionLabel(isDark)}
                 >
                     JWT Token
                 </label>
@@ -404,8 +404,7 @@ const JwtDecoder: React.FC<JwtDecoderProps> = ({ isDark }) => {
                     <div className="flex flex-col flex-1 min-h-0 gap-2">
                         <div className="flex items-center gap-2 shrink-0">
                             <span
-                                className={`text-[11px] font-mono font-semibold tracking-widest uppercase
-                    ${isDark ? 'text-[#6b7280]' : 'text-[#4b5563]'}`}
+                                className={sectionLabel(isDark)}
                             >
                                 Payload
                             </span>

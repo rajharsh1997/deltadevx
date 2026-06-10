@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { sectionLabel } from '../utils/styles'
 
 type Mode = 'timestamp' | 'cron'
 
@@ -92,7 +93,7 @@ const TimestampConverter: React.FC<{ isDark: boolean }> = ({ isDark }) => {
             : 'bg-white border-[#d1d5db] text-[#374151] font-semibold hover:bg-[#f3f4f6]'}`
 
     const label = (text: string) => (
-        <label className={`text-[11px] font-mono font-semibold tracking-widest uppercase ${isDark ? 'text-[#6b7280]' : 'text-[#1f2937]'}`}>
+        <label className={sectionLabel(isDark)}>
             {text}
         </label>
     )
@@ -160,7 +161,7 @@ const TimestampConverter: React.FC<{ isDark: boolean }> = ({ isDark }) => {
                                 ${i % 2 === 0
                                     ? isDark ? 'bg-[#0e0e18]' : 'bg-white'
                                     : isDark ? 'bg-[#12121f]' : 'bg-[#f9fafb]'}
-                                ${i < formats.length - 1 ? isDark ? 'border-b border-[#1e1e35]' : 'border-b border-[#f3f4f6]' : ''}`}
+                                ${i < formats.length - 1 ? isDark ? 'border-b border-[#1e1e35]' : 'border-b border-[#e5e7eb]' : ''}`}
                         >
                             <span className={`text-[11px] font-mono font-semibold w-[160px] shrink-0 ${isDark ? 'text-[#6b7280]' : 'text-[#4b5563]'}`}>
                                 {lbl}
@@ -387,7 +388,7 @@ const CronParser: React.FC<{ isDark: boolean }> = ({ isDark }) => {
         <div className="flex flex-col gap-5 flex-1">
             {/* Expression input */}
             <div className="flex flex-col gap-2">
-                <label className={`text-[11px] font-mono font-semibold tracking-widest uppercase ${isDark ? 'text-[#6b7280]' : 'text-[#1f2937]'}`}>
+                <label className={`text-[11px] font-mono font-semibold tracking-widest uppercase ${isDark ? 'text-[#d1d5db]' : 'text-[#111827]'}`}>
                     Cron Expression
                 </label>
                 <input
@@ -426,7 +427,7 @@ const CronParser: React.FC<{ isDark: boolean }> = ({ isDark }) => {
                 {/* Next executions */}
                 {nexts.length > 0 && (
                     <div className="flex flex-col flex-1 gap-2">
-                        <label className={`text-[11px] font-mono font-semibold tracking-widest uppercase ${isDark ? 'text-[#6b7280]' : 'text-[#1f2937]'}`}>
+                        <label className={`text-[11px] font-mono font-semibold tracking-widest uppercase ${isDark ? 'text-[#d1d5db]' : 'text-[#111827]'}`}>
                             Next {nexts.length} Executions
                         </label>
                         <div className={`rounded-lg border overflow-hidden ${isDark ? 'border-[#2a2a45]' : 'border-[#e5e7eb]'}`}>
@@ -437,7 +438,7 @@ const CronParser: React.FC<{ isDark: boolean }> = ({ isDark }) => {
                                         ${i % 2 === 0
                                             ? isDark ? 'bg-[#0e0e18]' : 'bg-white'
                                             : isDark ? 'bg-[#12121f]' : 'bg-[#f9fafb]'}
-                                        ${i < nexts.length - 1 ? isDark ? 'border-b border-[#1e1e35]' : 'border-b border-[#f3f4f6]' : ''}`}
+                                        ${i < nexts.length - 1 ? isDark ? 'border-b border-[#1e1e35]' : 'border-b border-[#e5e7eb]' : ''}`}
                                 >
                                     <span className={`text-[11px] font-mono w-5 shrink-0 ${isDark ? 'text-[#6b7280]' : 'text-[#4b5563]'}`}>
                                         #{i + 1}
@@ -456,7 +457,7 @@ const CronParser: React.FC<{ isDark: boolean }> = ({ isDark }) => {
 
                 {/* Examples */}
                 <div className="flex flex-col gap-2 w-[240px] shrink-0">
-                    <label className={`text-[11px] font-mono font-semibold tracking-widest uppercase ${isDark ? 'text-[#6b7280]' : 'text-[#1f2937]'}`}>
+                    <label className={`text-[11px] font-mono font-semibold tracking-widest uppercase ${isDark ? 'text-[#d1d5db]' : 'text-[#111827]'}`}>
                         Common Expressions
                     </label>
                     <div className={`rounded-lg border overflow-hidden ${isDark ? 'border-[#2a2a45]' : 'border-[#e5e7eb]'}`}>
@@ -470,7 +471,7 @@ const CronParser: React.FC<{ isDark: boolean }> = ({ isDark }) => {
                                         : i % 2 === 0
                                             ? isDark ? 'bg-[#0e0e18] hover:bg-[#1a1a2e]' : 'bg-white hover:bg-[#f3f4f6]'
                                             : isDark ? 'bg-[#12121f] hover:bg-[#1a1a2e]' : 'bg-[#f9fafb] hover:bg-[#f3f4f6]'}
-                                    ${i < CRON_EXAMPLES.length - 1 ? isDark ? 'border-b border-[#1e1e35]' : 'border-b border-[#f3f4f6]' : ''}`}
+                                    ${i < CRON_EXAMPLES.length - 1 ? isDark ? 'border-b border-[#1e1e35]' : 'border-b border-[#e5e7eb]' : ''}`}
                             >
                                 <span className={`text-[12px] font-sans ${isDark ? 'text-[#c5c5d8]' : 'text-[#374151]'}`}>{ex.label}</span>
                                 <span className={`text-[11px] font-mono shrink-0 ${expr === ex.value ? 'text-[#4f6ef7]' : isDark ? 'text-[#6b7280]' : 'text-[#4b5563]'}`}>{ex.value}</span>
@@ -501,8 +502,8 @@ export default function TimeSchedule({ isDark }: { isDark: boolean }) {
                     : 'bg-[#e5e7eb]/70 backdrop-blur-xl border border-black/[0.04] shadow-inner'}`}>
 
                 <div
-                    className={`absolute top-1 bottom-1 w-[130px] rounded-lg transition-transform duration-300 ease-out
-                        ${isDark ? 'bg-[#2a2a45] border border-white/10 shadow-sm' : 'bg-white border border-black/[0.04] shadow-[0_2px_8px_rgba(0,0,0,0.08)]'}`}
+                    className={`absolute top-1 bottom-1 w-[130px] rounded-lg transition-transform duration-300 ease-out ring-1 ring-[#22c55e]/60
+                        ${isDark ? 'bg-[#2a2a45] border border-white/10 shadow-sm shadow-[#22c55e]/10' : 'bg-white border border-[#22c55e]/40 shadow-[0_2px_8px_rgba(34,197,94,0.12)]'}`}
                     style={{ transform: `translateX(${activeIndex * 100}%)` }}
                 />
                 {tabs.map((t) => (
@@ -511,7 +512,7 @@ export default function TimeSchedule({ isDark }: { isDark: boolean }) {
                         onClick={() => setMode(t.id)}
                         className={`relative z-10 w-[130px] py-1.5 text-[13px] font-semibold font-sans tracking-wide transition-colors duration-300 cursor-pointer text-center
                             ${mode === t.id
-                                ? isDark ? 'text-white' : 'text-gray-900'
+                                ? isDark ? 'text-[#4ade80]' : 'text-[#15803d]'
                                 : isDark ? 'text-[#6b7280] hover:text-[#9595b4]' : 'text-[#4b5563] hover:text-[#111827]'
                             }`}
                     >

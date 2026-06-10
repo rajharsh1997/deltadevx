@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react'
+import { sectionLabel } from '../utils/styles'
 
 type Mode = 'cidr' | 'curl' | 'http'
 
@@ -12,7 +13,7 @@ const useStyles = (isDark: boolean) => ({
         focus:outline-none focus:ring-1 focus:ring-[#4f6ef7]
         ${isDark ? 'bg-[#1e1e35] border-[#2a2a45] text-[#9595b4]' : 'bg-white border-[#d1d5db] text-[#111827]'}`,
     label: (text: string) => (
-        <label className={`text-[11px] font-mono font-semibold tracking-widest uppercase ${isDark ? 'text-[#6b7280]' : 'text-[#1f2937]'}`}>{text}</label>
+        <label className={sectionLabel(isDark)}>{text}</label>
     ),
     btnSecondary: `px-3 py-1.5 rounded-lg text-xs font-mono transition-all duration-150 cursor-pointer border
         ${isDark ? 'bg-[#1e1e35] border-[#2a2a45] text-[#9595b4] hover:bg-[#252545]'
@@ -21,7 +22,7 @@ const useStyles = (isDark: boolean) => ({
     row: (i: number, total: number) =>
         `flex items-center justify-between px-4 py-3 gap-4
         ${i % 2 === 0 ? isDark ? 'bg-[#0e0e18]' : 'bg-white' : isDark ? 'bg-[#12121f]' : 'bg-[#f9fafb]'}
-        ${i < total - 1 ? isDark ? 'border-b border-[#1e1e35]' : 'border-b border-[#f3f4f6]' : ''}`,
+        ${i < total - 1 ? isDark ? 'border-b border-[#1e1e35]' : 'border-b border-[#e5e7eb]' : ''}`,
 })
 
 /* ─── CIDR Calculator ────────────────────────────────────────────────────── */
@@ -374,14 +375,14 @@ export default function NetworkTools({ isDark }: { isDark: boolean }) {
             <div className={`relative flex items-center p-1 rounded-xl w-fit
                 ${isDark ? 'bg-[#0e0e18]/80 backdrop-blur-xl border border-white/5 shadow-inner'
                          : 'bg-[#e5e7eb]/70 backdrop-blur-xl border border-black/[0.04] shadow-inner'}`}>
-                <div className={`absolute top-1 bottom-1 w-[160px] rounded-lg transition-transform duration-300 ease-out
-                    ${isDark ? 'bg-[#2a2a45] border border-white/10 shadow-sm' : 'bg-white border border-black/[0.04] shadow-[0_2px_8px_rgba(0,0,0,0.08)]'}`}
+                <div className={`absolute top-1 bottom-1 w-[160px] rounded-lg transition-transform duration-300 ease-out ring-1 ring-[#22c55e]/60
+                    ${isDark ? 'bg-[#2a2a45] border border-white/10 shadow-sm shadow-[#22c55e]/10' : 'bg-white border border-[#22c55e]/40 shadow-[0_2px_8px_rgba(34,197,94,0.12)]'}`}
                     style={{ transform: `translateX(${activeIndex * 100}%)` }} />
                 {tabs.map(t => (
                     <button key={t.id} onClick={() => setMode(t.id)}
                         className={`relative z-10 w-[160px] py-1.5 text-[13px] font-semibold font-sans tracking-wide transition-colors duration-300 cursor-pointer text-center
                             ${mode === t.id
-                                ? isDark ? 'text-white' : 'text-gray-900'
+                                ? isDark ? 'text-[#4ade80]' : 'text-[#15803d]'
                                 : isDark ? 'text-[#6b7280] hover:text-[#9595b4]' : 'text-[#4b5563] hover:text-[#111827]'}`}>
                         {t.label}
                     </button>

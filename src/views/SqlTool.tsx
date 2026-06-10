@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useRef } from 'react'
+import { sectionLabel } from '../utils/styles'
 import { format as sqlFormat } from 'sql-formatter'
 import { nlToSQL, type NLResult } from '../utils/nlToSQL'
 
@@ -164,13 +165,13 @@ const FormatterPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
 
             <div className="flex gap-4 flex-1">
                 <div className="flex flex-col flex-1 min-w-0 gap-2">
-                    <label className={`text-[11px] font-mono font-semibold tracking-widest uppercase ${isDark ? 'text-[#6b7280]' : 'text-[#1f2937]'}`}>Raw SQL</label>
+                    <label className={sectionLabel(isDark)}>Raw SQL</label>
                     <textarea id="sql-input" value={input} onChange={e => setInput(e.target.value)}
                         placeholder="Paste your SQL query here…" spellCheck={false}
                         className={`${inputCls} flex-1 min-h-[300px]`} />
                 </div>
                 <div className="flex flex-col flex-1 min-w-0 gap-2">
-                    <label className={`text-[11px] font-mono font-semibold tracking-widest uppercase ${isDark ? 'text-[#6b7280]' : 'text-[#1f2937]'}`}>Formatted Output</label>
+                    <label className={sectionLabel(isDark)}>Formatted Output</label>
                     <SqlDisplay sql={output} isDark={isDark} />
                 </div>
             </div>
@@ -653,8 +654,8 @@ const SqlTool: React.FC<SqlToolProps> = ({ isDark }) => {
 
                 {/* Sliding Background */}
                 <div
-                    className={`absolute top-1 bottom-1 w-[160px] rounded-lg transition-transform duration-300 ease-out
-                        ${isDark ? 'bg-[#2a2a45] border border-white/10 shadow-sm' : 'bg-white border border-black/[0.04] shadow-[0_2px_8px_rgba(0,0,0,0.08)]'}`}
+                    className={`absolute top-1 bottom-1 w-[160px] rounded-lg transition-transform duration-300 ease-out ring-1 ring-[#22c55e]/60
+                        ${isDark ? 'bg-[#2a2a45] border border-white/10 shadow-sm shadow-[#22c55e]/10' : 'bg-white border border-[#22c55e]/40 shadow-[0_2px_8px_rgba(34,197,94,0.12)]'}`}
                     style={{ transform: `translateX(${activeIndex * 100}%)` }}
                 />
 
@@ -666,7 +667,7 @@ const SqlTool: React.FC<SqlToolProps> = ({ isDark }) => {
                         onClick={() => setMode(t.id)}
                         className={`relative z-10 w-[160px] py-2 text-[13px] font-semibold font-sans tracking-wide transition-colors duration-300 cursor-pointer text-center
                             ${mode === t.id
-                                ? isDark ? 'text-white' : 'text-gray-900'
+                                ? isDark ? 'text-[#4ade80]' : 'text-[#15803d]'
                                 : isDark ? 'text-[#6b7280] hover:text-[#9595b4]' : 'text-[#4b5563] hover:text-[#111827]'
                             }`}
                     >

@@ -6,6 +6,7 @@ import { syntaxHighlighting, HighlightStyle } from '@codemirror/language'
 import { tags } from '@lezer/highlight'
 import { EditorState } from '@codemirror/state'
 import { computeDiff, formatJSON, type DiffLine } from '../utils/jsonDiff'
+import { sectionLabel } from '../utils/styles'
 
 /* ─────────────────────────── Light Theme ─────────────────────────────────── */
 
@@ -372,8 +373,7 @@ const JsonDiff: React.FC<JsonDiffProps> = ({ isDark }) => {
                 {/* Left editor */}
                 <div className="flex flex-col flex-1 min-w-0 gap-2">
                     <label
-                        className={`text-[11px] font-mono font-semibold tracking-widest uppercase
-              ${isDark ? 'text-[#6b7280]' : 'text-[#4b5563]'}`}
+                        className={sectionLabel(isDark)}
                     >
                         JSON Input A
                     </label>
@@ -396,8 +396,7 @@ const JsonDiff: React.FC<JsonDiffProps> = ({ isDark }) => {
                 {/* Right editor */}
                 <div className="flex flex-col flex-1 min-w-0 gap-2">
                     <label
-                        className={`text-[11px] font-mono font-semibold tracking-widest uppercase
-              ${isDark ? 'text-[#6b7280]' : 'text-[#4b5563]'}`}
+                        className={sectionLabel(isDark)}
                     >
                         JSON Input B
                     </label>
@@ -482,8 +481,7 @@ const JsonDiff: React.FC<JsonDiffProps> = ({ isDark }) => {
                 <div className="flex flex-col flex-1 gap-2 animate-fade-in">
                     <div className="flex items-center gap-3 shrink-0">
                         <label
-                            className={`text-[11px] font-mono font-semibold tracking-widest uppercase
-                ${isDark ? 'text-[#6b7280]' : 'text-[#4b5563]'}`}
+                            className={sectionLabel(isDark)}
                         >
                             Comparison Result
                         </label>

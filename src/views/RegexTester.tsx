@@ -159,7 +159,7 @@ const RegexTester: React.FC<RegexTesterProps> = ({ isDark }) => {
         <div className={`flex flex-col min-h-full gap-5 p-6 min-w-[720px] ${isDark ? 'text-[#d1d5db]' : 'text-[#1f2937]'}`}>
             {/* Pattern row */}
             <div className="flex flex-col gap-2">
-                <label className={`text-[11px] font-mono font-semibold tracking-widest uppercase ${isDark ? 'text-[#6b7280]' : 'text-[#1f2937]'}`}>
+                <label className={`text-[11px] font-mono font-semibold tracking-widest uppercase ${isDark ? 'text-[#d1d5db]' : 'text-[#111827]'}`}>
                     Regex Pattern
                 </label>
                 <div className={`flex items-center rounded-md border overflow-hidden transition-colors duration-150
@@ -218,7 +218,7 @@ const RegexTester: React.FC<RegexTesterProps> = ({ isDark }) => {
             <div className="flex gap-4 flex-1 min-h-0">
                 {/* Input */}
                 <div className="flex flex-col flex-1 min-w-0 gap-2">
-                    <label className={`text-[11px] font-mono font-semibold tracking-widest uppercase ${isDark ? 'text-[#6b7280]' : 'text-[#1f2937]'}`}>
+                    <label className={`text-[11px] font-mono font-semibold tracking-widest uppercase ${isDark ? 'text-[#d1d5db]' : 'text-[#111827]'}`}>
                         Test String
                     </label>
                     <textarea
@@ -234,7 +234,7 @@ const RegexTester: React.FC<RegexTesterProps> = ({ isDark }) => {
                 {/* Highlighted output */}
                 <div className="flex flex-col flex-1 min-w-0 gap-2">
                     <div className="flex items-center justify-between">
-                        <label className={`text-[11px] font-mono font-semibold tracking-widest uppercase ${isDark ? 'text-[#6b7280]' : 'text-[#1f2937]'}`}>
+                        <label className={`text-[11px] font-mono font-semibold tracking-widest uppercase ${isDark ? 'text-[#d1d5db]' : 'text-[#111827]'}`}>
                             Match Preview
                         </label>
                         {matches.length > 0 && (
@@ -254,7 +254,7 @@ const RegexTester: React.FC<RegexTesterProps> = ({ isDark }) => {
             {/* Match list */}
             {matches.length > 0 && (
                 <div className="flex flex-col gap-2">
-                    <label className={`text-[11px] font-mono font-semibold tracking-widest uppercase ${isDark ? 'text-[#6b7280]' : 'text-[#1f2937]'}`}>
+                    <label className={`text-[11px] font-mono font-semibold tracking-widest uppercase ${isDark ? 'text-[#d1d5db]' : 'text-[#111827]'}`}>
                         Matches
                     </label>
                     <div className={`rounded-md border overflow-hidden ${isDark ? 'border-[#2a2a45]' : 'border-[#e5e7eb]'}`}>
@@ -263,7 +263,7 @@ const RegexTester: React.FC<RegexTesterProps> = ({ isDark }) => {
                                 ${i % 2 === 0
                                     ? isDark ? 'bg-[#12121f]' : 'bg-white'
                                     : isDark ? 'bg-[#0e0e18]' : 'bg-[#f9fafb]'}
-                                ${i < matches.length - 1 ? isDark ? 'border-b border-[#1e1e35]' : 'border-b border-[#f3f4f6]' : ''}`}>
+                                ${i < matches.length - 1 ? isDark ? 'border-b border-[#1e1e35]' : 'border-b border-[#e5e7eb]' : ''}`}>
                                 <span className={`shrink-0 text-[10px] px-2 py-0.5 rounded font-bold ${isDark ? 'bg-[#1e1e35] text-[#6b7280]' : 'bg-[#f3f4f6] text-[#4b5563]'}`}>
                                     #{i + 1}
                                 </span>

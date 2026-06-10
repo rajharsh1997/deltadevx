@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useRef } from 'react'
 import * as Diff from 'diff'
+import { sectionLabel } from '../utils/styles'
 
 interface TextDiffProps {
     isDark: boolean
@@ -106,7 +107,7 @@ const TextEditor: React.FC<{ label: string; value: string; onChange: (v: string)
     label, value, onChange, isDark, placeholder
 }) => (
     <div className="flex flex-col flex-1 min-w-0 gap-2">
-        <label className={`text-[11px] font-mono font-semibold tracking-widest uppercase ${isDark ? 'text-[#6b7280]' : 'text-[#4b5563]'}`}>
+        <label className={sectionLabel(isDark)}>
             {label}
         </label>
         <textarea
@@ -215,7 +216,7 @@ const TextDiff: React.FC<TextDiffProps> = ({ isDark }) => {
             {diffResult && (
                 <div className="flex flex-col flex-1 gap-2">
                     <div className="flex items-center gap-3 shrink-0">
-                        <label className={`text-[11px] font-mono font-semibold tracking-widest uppercase ${isDark ? 'text-[#6b7280]' : 'text-[#4b5563]'}`}>
+                        <label className={sectionLabel(isDark)}>
                             Comparison Result
                         </label>
                         {noDiff ? (

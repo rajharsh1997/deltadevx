@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { sectionLabel } from '../utils/styles'
 
 const EXAMPLE_ENCODE = `{"user":"john_doe","role":"admin","exp":1893456000}`
 const EXAMPLE_DECODE = `eyJ1c2VyIjoiam9obl9kb2UiLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE4OTM0NTYwMDB9`
@@ -45,8 +46,8 @@ export default function Base64({ isDark }: { isDark: boolean }) {
                          : 'bg-[#e5e7eb]/70 backdrop-blur-xl border border-black/[0.04] shadow-inner'}`}>
                 
                 <div 
-                    className={`absolute top-1 bottom-1 w-[110px] rounded-lg transition-transform duration-300 ease-out
-                        ${isDark ? 'bg-[#2a2a45] border border-white/10 shadow-sm' : 'bg-white border border-black/[0.04] shadow-[0_2px_8px_rgba(0,0,0,0.08)]'}`}
+                    className={`absolute top-1 bottom-1 w-[110px] rounded-lg transition-transform duration-300 ease-out ring-1 ring-[#22c55e]/60
+                        ${isDark ? 'bg-[#2a2a45] border border-white/10 shadow-sm shadow-[#22c55e]/10' : 'bg-white border border-[#22c55e]/40 shadow-[0_2px_8px_rgba(34,197,94,0.12)]'}`}
                     style={{ transform: `translateX(${mode === 'encode' ? 0 : 100}%)` }}
                 />
                 {(['encode', 'decode'] as const).map((m) => (
@@ -55,7 +56,7 @@ export default function Base64({ isDark }: { isDark: boolean }) {
                         onClick={() => setMode(m)}
                         className={`relative z-10 w-[110px] py-1.5 text-[13px] font-semibold font-sans tracking-wide transition-colors duration-300 cursor-pointer text-center capitalize
                             ${mode === m
-                                ? isDark ? 'text-white' : 'text-gray-900'
+                                ? isDark ? 'text-[#4ade80]' : 'text-[#15803d]'
                                 : isDark ? 'text-[#6b7280] hover:text-[#9595b4]' : 'text-[#4b5563] hover:text-[#111827]'
                             }`}
                     >
@@ -84,7 +85,7 @@ export default function Base64({ isDark }: { isDark: boolean }) {
             {/* Editor row */}
             <div className="flex gap-4 flex-1">
                 <div className="flex flex-col flex-1 gap-2">
-                    <label className={`text-[11px] font-mono font-semibold tracking-widest uppercase ${isDark ? 'text-[#6b7280]' : 'text-[#1f2937]'}`}>Input</label>
+                    <label className={sectionLabel(isDark)}>Input</label>
                     <textarea
                         value={input}
                         onChange={e => setInput(e.target.value)}
@@ -94,7 +95,7 @@ export default function Base64({ isDark }: { isDark: boolean }) {
                     />
                 </div>
                 <div className="flex flex-col flex-1 gap-2">
-                    <label className={`text-[11px] font-mono font-semibold tracking-widest uppercase ${isDark ? 'text-[#6b7280]' : 'text-[#1f2937]'}`}>Output</label>
+                    <label className={sectionLabel(isDark)}>Output</label>
                     <textarea
                         value={output}
                         readOnly

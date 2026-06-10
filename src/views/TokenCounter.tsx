@@ -5,7 +5,7 @@ interface TokenCounterProps {
     isDark: boolean
 }
 
-type ModelKey = 'gpt-4o' | 'claude-sonnet-4-5' | 'claude-sonnet-4-6' | 'claude-opus-4' | 'deepseek-v4-flash' | 'gemini-2-5-pro'
+type ModelKey = 'gpt-4o' | 'claude-sonnet-4-5' | 'claude-sonnet-4-6' | 'claude-opus-4' | 'deepseek-v4-flash' | 'gemini-3-1-pro'
 
 interface ModelInfo {
     label: string
@@ -20,9 +20,9 @@ const MODELS: Record<ModelKey, ModelInfo> = {
     'gpt-4o': { label: 'GPT-4o', provider: 'OpenAI', inputPer1M: 2.50, outputPer1M: 10.00, context: '128k' },
     'claude-sonnet-4-5': { label: 'Claude Sonnet 4.5', provider: 'Anthropic', inputPer1M: 3.00, outputPer1M: 15.00, context: '200k' },
     'claude-sonnet-4-6': { label: 'Claude Sonnet 4.6', provider: 'Anthropic', inputPer1M: 3.00, outputPer1M: 15.00, context: '200k', badge: 'Latest' },
-    'claude-opus-4': { label: 'Claude Opus 4', provider: 'Anthropic', inputPer1M: 15.00, outputPer1M: 75.00, context: '200k', badge: 'Power' },
-    'deepseek-v4-flash': { label: 'DeepSeek V4 Flash', provider: 'DeepSeek', inputPer1M: 0.15, outputPer1M: 0.60, context: '128k', badge: 'Budget' },
-    'gemini-2-5-pro': { label: 'Gemini 2.5 Pro', provider: 'Google', inputPer1M: 1.25, outputPer1M: 10.00, context: '1M', badge: 'Long ctx' },
+    'claude-opus-4': { label: 'Claude Opus 4', provider: 'Anthropic', inputPer1M: 5.00, outputPer1M: 25.00, context: '200k', badge: 'Power' },
+    'deepseek-v4-flash': { label: 'DeepSeek V4 Flash', provider: 'DeepSeek', inputPer1M: 0.14, outputPer1M: 0.28, context: '1M', badge: 'Budget' },
+    'gemini-3-1-pro': { label: 'Gemini 3.1 Pro', provider: 'Google', inputPer1M: 2.00, outputPer1M: 12.00, context: '1M', badge: 'Long ctx' },
 }
 
 const PROVIDER_COLORS: Record<string, string> = {
@@ -107,7 +107,7 @@ const TokenCounter: React.FC<TokenCounterProps> = ({ isDark }) => {
             {/* Textarea */}
             <div className="flex flex-col gap-2 flex-1">
                 <div className="flex items-center justify-between">
-                    <label className={`text-[11px] font-mono font-semibold tracking-widest uppercase ${isDark ? 'text-[#6b7280]' : 'text-[#6b7280]'}`}>
+                    <label className={`text-[11px] font-mono font-semibold tracking-widest uppercase ${isDark ? 'text-[#d1d5db]' : 'text-[#111827]'}`}>
                         Input Text
                     </label>
                     <div className="flex gap-2">
@@ -140,7 +140,7 @@ const TokenCounter: React.FC<TokenCounterProps> = ({ isDark }) => {
             {/* Cost reference table */}
             <div className="flex flex-col gap-2">
                 <div className="flex items-center justify-between">
-                    <label className={`text-[11px] font-mono font-semibold tracking-widest uppercase ${isDark ? 'text-[#6b7280]' : 'text-[#6b7280]'}`}>
+                    <label className={`text-[11px] font-mono font-semibold tracking-widest uppercase ${isDark ? 'text-[#d1d5db]' : 'text-[#111827]'}`}>
                         Cost Reference <span className={`normal-case tracking-normal font-normal ml-1 ${isDark ? 'text-[#6b7280]' : 'text-[#9ca3af]'}`}>(click a row to highlight)</span>
                     </label>
                     <span className={`text-[11px] font-mono ${isDark ? 'text-[#6b7280]' : 'text-[#9ca3af]'}`}>
@@ -150,7 +150,7 @@ const TokenCounter: React.FC<TokenCounterProps> = ({ isDark }) => {
                 <div className={`rounded-xl border overflow-hidden ${isDark ? 'border-[#2a2a45]' : 'border-[#e5e7eb]'}`}>
                     {/* Header */}
                     <div className={`grid font-mono text-[10.5px] font-semibold tracking-wider uppercase px-4 py-2.5 border-b
-                        ${isDark ? 'bg-[#0e0e18] border-[#2a2a45] text-[#4b5563]' : 'bg-[#f9fafb] border-[#e5e7eb] text-[#9ca3af]'}`}
+                        ${isDark ? 'bg-[#0e0e18] border-[#2a2a45] text-[#d1d5db]' : 'bg-[#f9fafb] border-[#e5e7eb] text-[#111827]'}`}
                         style={{ gridTemplateColumns: '1fr 80px 80px 90px 90px 100px' }}>
                         <span>Model</span>
                         <span className="text-right">Provider</span>
@@ -169,7 +169,7 @@ const TokenCounter: React.FC<TokenCounterProps> = ({ isDark }) => {
                                 id={`token-model-${key}`}
                                 onClick={() => setSelectedModel(key)}
                                 className={`w-full grid text-left font-mono text-[12px] px-4 py-3 transition-all duration-150 cursor-pointer
-                                    ${i < arr.length - 1 ? isDark ? 'border-b border-[#1a1a2e]' : 'border-b border-[#f3f4f6]' : ''}
+                                    ${i < arr.length - 1 ? isDark ? 'border-b border-[#1a1a2e]' : 'border-b border-[#e5e7eb]' : ''}
                                     ${isSelected
                                         ? isDark ? 'bg-[#4f6ef712]' : 'bg-[#eff2ff]'
                                         : isDark ? 'bg-[#12121f] hover:bg-[#1a1a2e]' : 'bg-white hover:bg-[#f9fafb]'
