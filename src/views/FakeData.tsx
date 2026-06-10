@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import { useState, useRef } from 'react'
 
 /* ─── Random Data Tables ─────────────────────────────────────────────────── */
 const FIRST = ['Alice','Bob','Carlos','Diana','Ethan','Fiona','George','Hannah','Ivan','Julia','Kevin','Laura','Miguel','Nina','Oscar','Paula','Quinn','Rachel','Sam','Tina','Uma','Victor','Wendy','Xander','Yara','Zach']

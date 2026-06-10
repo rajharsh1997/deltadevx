@@ -1,6 +1,6 @@
 import React from 'react'
 import logoUrl from '../assets/logo.png'
-export type View = 'json-diff' | 'jwt-decoder' | 'text-diff' | 'sql-tool' | 'regex-tester' | 'token-counter' | 'base64' | 'time-schedule' | 'network-tools' | 'fake-data'
+export type View = 'json-diff' | 'jwt-decoder' | 'text-diff' | 'sql-tool' | 'regex-tester' | 'token-counter' | 'base64' | 'time-schedule' | 'network-tools' | 'fake-data' | 'unix-perms'
 
 interface SidebarProps {
     activeView: View
@@ -106,6 +106,13 @@ const FakeDataIcon = () => (
     </svg>
 )
 
+const UnixIcon = () => (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="4 17 10 11 4 5" />
+        <line x1="12" y1="19" x2="20" y2="19" />
+    </svg>
+)
+
 const SunIcon = () => (
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
         <circle cx="12" cy="12" r="5" />
@@ -137,6 +144,7 @@ const navItems: { id: View; label: string; Icon: React.FC }[] = [
     { id: 'time-schedule', label: 'Time & Cron', Icon: TimeIcon },
     { id: 'network-tools', label: 'Network', Icon: NetworkIcon },
     { id: 'fake-data', label: 'Fake Data', Icon: FakeDataIcon },
+    { id: 'unix-perms', label: 'UNIX Perms', Icon: UnixIcon },
 ]
 
 const Sidebar: React.FC<SidebarProps> = ({ activeView, onViewChange, isDark, onToggleTheme }) => {

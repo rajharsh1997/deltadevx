@@ -11,6 +11,7 @@ import Base64 from './views/Base64'
 import TimeSchedule from './views/TimeSchedule'
 import NetworkTools from './views/NetworkTools'
 import FakeData from './views/FakeData'
+import UnixPerms from './views/UnixPerms'
 
 function App() {
   const [activeView, setActiveView] = useState<View>('json-diff')
@@ -58,6 +59,7 @@ function App() {
           {activeView === 'time-schedule' && <TimeSchedule isDark={isDark} />}
           {activeView === 'network-tools' && <NetworkTools isDark={isDark} />}
           {activeView === 'fake-data' && <FakeData isDark={isDark} />}
+          {activeView === 'unix-perms' && <UnixPerms isDark={isDark} />}
         </main>
       </div>
     </div>

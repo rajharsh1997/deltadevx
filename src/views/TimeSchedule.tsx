@@ -74,7 +74,7 @@ const TimestampConverter: React.FC<{ isDark: boolean }> = ({ isDark }) => {
 
     const useNow = () => {
         setTsInput(String(nowSec))
-        setDateInput('')
+        setDateText('')
     }
 
     const clearAll = () => {
@@ -117,7 +117,7 @@ const TimestampConverter: React.FC<{ isDark: boolean }> = ({ isDark }) => {
                     <input
                         type="number"
                         value={tsInput}
-                        onChange={e => { setTsInput(e.target.value); setDateInput('') }}
+                        onChange={e => { setTsInput(e.target.value); setDateText('') }}
                         placeholder="e.g. 1893456000"
                         className={inputCls}
                     />

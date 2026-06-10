@@ -12,7 +12,7 @@ const FILLERS = new Set(['me', 'my', 'the', 'a', 'an', 'all', 'some'])
 function stripLeadingFillers(raw: string): string {
   return raw
     .split(/\s+/)
-    .reduce((acc, word, i, arr) => {
+    .reduce((acc, word) => {
       if (acc.length === 0 && FILLERS.has(word.toLowerCase())) return acc
       acc.push(word)
       return acc
@@ -67,11 +67,6 @@ function parseColumns(raw: string): string {
   return cols.join(', ')
 }
 
-/** Strip currency symbols and normalise a numeric value token */
-function normNum(v: string): string {
-  return v.replace(/^[$£€¥]/, '')
-}
-
 /** Month name → zero-padded number */
 const MONTHS: Record<string, string> = {
   january:'01', february:'02', march:'03', april:'04', may:'05', june:'06',
@@ -122,8 +117,6 @@ const WHERE_KEYWORDS = new Set([
   'the','a','an','where','and','or','not','is','in','between','like','null','true','false'
 ])
 
-/** Date-like pattern: captures "Month Day Year", "Day Month Year", ISO, or MM/DD/YYYY */
-const DATE_PAT = /[\w]+(?:\s+[\w,]+){1,3}/
 
 function parseWhere(w: string): string {
   return w

@@ -170,8 +170,7 @@ const ColumnCard: React.FC<ColumnCardProps> = ({ title, children, isDark, badge 
     <div className="flex flex-col flex-1 min-h-0 gap-2">
         <div className="flex items-center gap-2 shrink-0">
             <span
-                className={`text-[11px] font-mono font-semibold tracking-widest uppercase
-          ${isDark ? 'text-[#6b7280]' : 'text-[#4b5563]'}`}
+                className={sectionLabel(isDark)}
             >
                 {title}
             </span>

@@ -47,6 +47,10 @@ const viewMeta: Record<View, { title: string; subtitle: string }> = {
         title: 'Fake Data Generator',
         subtitle: 'Generate mock data for testing: JSON, CSV, names, emails, UUIDs, and more',
     },
+    'unix-perms': {
+        title: 'UNIX Permissions',
+        subtitle: 'Calculate file permissions, view symbolic modes, and generate chmod commands',
+    },
 }
 
 const TopBar: React.FC<TopBarProps> = ({ activeView, isDark }) => {

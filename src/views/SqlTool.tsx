@@ -301,7 +301,7 @@ const BuilderPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
         focus:outline-none focus:ring-1 focus:ring-[#4f6ef7]
         ${isDark ? 'bg-[#1e1e35] border-[#2a2a45] text-[#9595b4]' : 'bg-white border-[#d1d5db] text-[#111827]'}`
 
-    const sectionLabel = `text-[10.5px] font-mono font-semibold tracking-widest uppercase mb-2 ${isDark ? 'text-[#6b7280]' : 'text-[#1f2937]'}`
+    const secLabelCls = `${sectionLabel(isDark)} mb-2`
     const addBtn = `px-3 py-1 rounded-md text-[11px] font-mono cursor-pointer transition-all duration-150 border
         ${isDark ? 'bg-[#1e1e35] border-[#2a2a45] text-[#6b7280] hover:text-[#9595b4]' : 'bg-white border-[#d1d5db] text-[#4b5563] hover:text-[#111827]'}`
     const removeBtn = `shrink-0 w-6 h-6 flex items-center justify-center rounded font-bold text-[13px] transition-all cursor-pointer
@@ -313,7 +313,7 @@ const BuilderPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
             <div className={`flex flex-col gap-5 w-[420px] shrink-0 overflow-y-auto pr-2`}>
                 {/* Dialect */}
                 <div>
-                    <div className={`${sectionLabel} flex items-center justify-between`}>
+                    <div className={`${secLabelCls} flex items-center justify-between`}>
                         <span>Dialect</span>
                         <button onClick={handleLoadExample} className={addBtn}>Load Example</button>
                     </div>
@@ -324,7 +324,7 @@ const BuilderPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
 
                 {/* Schema + Table */}
                 <div>
-                    <div className={sectionLabel}>Table</div>
+                    <div className={secLabelCls}>Table</div>
                     <div className="flex gap-2">
                         <input id="builder-schema" type="text" value={schema} onChange={e => setSchema(e.target.value)}
                             placeholder="schema (optional)" className={`${inputCls} w-[120px]`} />
@@ -336,7 +336,7 @@ const BuilderPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
 
                 {/* Columns */}
                 <div>
-                    <div className={`${sectionLabel} flex items-center justify-between`}>
+                    <div className={`${secLabelCls} flex items-center justify-between`}>
                         <span>Columns</span>
                         <button id="builder-add-col" onClick={addColumn} className={addBtn}>+ Add</button>
                     </div>
@@ -362,7 +362,7 @@ const BuilderPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
 
                 {/* JOINs */}
                 <div>
-                    <div className={`${sectionLabel} flex items-center justify-between`}>
+                    <div className={`${secLabelCls} flex items-center justify-between`}>
                         <span>JOINs</span>
                         <button id="builder-add-join" onClick={addJoin} className={addBtn}>+ Add</button>
                     </div>
@@ -395,7 +395,7 @@ const BuilderPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
 
                 {/* WHERE */}
                 <div>
-                    <div className={`${sectionLabel} flex items-center justify-between`}>
+                    <div className={`${secLabelCls} flex items-center justify-between`}>
                         <span>WHERE Conditions</span>
                         <button id="builder-add-where" onClick={addWhere} className={addBtn}>+ Add</button>
                     </div>
@@ -422,12 +422,12 @@ const BuilderPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
 
                 {/* GROUP BY + HAVING */}
                 <div>
-                    <div className={sectionLabel}>GROUP BY</div>
+                    <div className={secLabelCls}>GROUP BY</div>
                     <input id="builder-group-by" type="text" value={groupBy} onChange={e => setGroupBy(e.target.value)}
                         placeholder="category_id, status" className={`${inputCls} w-full`} />
                     {groupBy.trim() && (
                         <>
-                            <div className={`${sectionLabel} mt-3`}>HAVING</div>
+                            <div className={`${secLabelCls} mt-3`}>HAVING</div>
                             <input id="builder-having" type="text" value={having} onChange={e => setHaving(e.target.value)}
                                 placeholder="COUNT(*) > 5" className={`${inputCls} w-full`} />
                         </>
@@ -436,7 +436,7 @@ const BuilderPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
 
                 {/* ORDER BY */}
                 <div>
-                    <div className={sectionLabel}>ORDER BY</div>
+                    <div className={secLabelCls}>ORDER BY</div>
                     <div className="flex gap-2">
                         <input id="builder-order-field" type="text" value={orderField} onChange={e => setOrderField(e.target.value)}
                             placeholder="created_at" className={`${inputCls} flex-1`} />
@@ -449,7 +449,7 @@ const BuilderPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
 
                 {/* LIMIT */}
                 <div>
-                    <div className={sectionLabel}>LIMIT</div>
+                    <div className={secLabelCls}>LIMIT</div>
                     <input id="builder-limit" type="number" min="1" value={limit} onChange={e => setLimit(e.target.value)}
                         placeholder="100" className={`${inputCls} w-full`} />
                 </div>
@@ -458,7 +458,7 @@ const BuilderPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
             {/* Preview */}
             <div className="flex flex-col flex-1 min-w-0 gap-2">
                 <div className="flex items-center justify-between">
-                    <label className={`text-[11px] font-mono font-semibold tracking-widest uppercase ${isDark ? 'text-[#6b7280]' : 'text-[#1f2937]'}`}>
+                    <label className={sectionLabel(isDark)}>
                         SQL Preview
                     </label>
                     {formattedPreview && (
@@ -560,7 +560,7 @@ const NLPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
             <div className="flex gap-4 flex-1">
                 <div className="flex flex-col flex-1 min-w-0 gap-2">
                     <div className="flex items-center min-h-[32px]">
-                        <label className={`text-[11px] font-mono font-semibold tracking-widest uppercase ${isDark ? 'text-[#6b7280]' : 'text-[#1f2937]'}`}>
+                        <label className={sectionLabel(isDark)}>
                             Describe your query in plain English
                         </label>
                     </div>
@@ -582,7 +582,7 @@ const NLPanel: React.FC<{ isDark: boolean }> = ({ isDark }) => {
                 {/* Result */}
                 <div className="flex flex-col flex-1 min-w-0 gap-2">
                     <div className="flex items-center justify-between min-h-[32px]">
-                        <label className={`text-[11px] font-mono font-semibold tracking-widest uppercase ${isDark ? 'text-[#6b7280]' : 'text-[#1f2937]'}`}>
+                        <label className={sectionLabel(isDark)}>
                             Generated SQL
                         </label>
                         <div className="flex items-center gap-2">
