@@ -16,21 +16,19 @@ A cross-platform desktop application for developers for json utilities — built
 
 ## Features
 
-### 🔀 JSON Diff
+A comprehensive suite of offline-first developer tools:
 
-- Two side-by-side CodeMirror 6 editors with JSON syntax highlighting
-- Deep structural comparison using `jsondiffpatch`
-- LCS-based line diff with red/green highlighted output panels
-- Format JSON (auto-pretty-print) and Clear buttons
-- Inline error messages for invalid JSON
+- **JSON & Text Diff**: Deep structural JSON comparison and line-by-line text diffing with highlighted outputs.
+- **JWT Decoder**: Decode headers and payloads instantly, with human-readable timestamp conversions and expiration warnings.
+- **SQL Tool**: Natural language to SQL generator, schema builder, and live formatted preview.
+- **Regex Tester & Generator**: Live regex match highlighting with a built-in plain English pattern generator.
+- **Token Counter**: LLM token counting using cl100k_base with real-time cost estimation for top models.
+- **Base64 Encoder**: Bidirectional Base64 string encoding and decoding.
+- **Time & Cron**: Unix timestamp to date conversion, and a live Cron expression parser showing next execution times.
+- **Network Tools**: CIDR subnet calculator, cURL request builder, and HTTP status code reference.
+- **Fake Data**: Generate mock data (JSON/CSV) using dozens of customizable data field types.
+- **UNIX Perms**: Interactive chmod calculator with symbolic and octal two-way syncing.
 
-### 🔐 JWT Decoder
-
-- Paste any JWT and decode header + payload instantly
-- Special handling for `exp`, `iat`, `nbf` fields: shows Unix timestamp + human-readable date
-- Highlights expired tokens with a red warning
-- Shows raw signature with a note that verification is not performed
-- All decoding done in the browser — no network requests, no libraries
 
 ## Tech Stack
 
