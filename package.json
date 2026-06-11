@@ -22,7 +22,7 @@
     "codemirror": "^6.0.1",
     "diff": "^9.0.0",
     "gpt-tokenizer": "^3.4.0",
-    "jsondiffpatch": "^0.6.0",
+    "jsondiffpatch": "^0.7.6",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "sql-formatter": "^15.8.1"
